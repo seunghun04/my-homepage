@@ -24,21 +24,31 @@ body{
     letter-spacing: -0.5px;
 
     display:flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content:center;
     align-items:center;
     height:100vh;
     overflow:hidden;
 
     /* 배경 설정 */
-    background: 
-        linear-gradient(-45deg, rgba(238, 242, 243, 0.4), rgba(224, 234, 252, 0.5), rgba(207, 217, 223, 0.4), rgba(226, 235, 240, 0.5)),
-        url("프로젝트 v2.png") center no-repeat;
-    
-    background-size: 400% 400%, cover;
+    background:
+        linear-gradient(
+            -45deg,
+            rgba(238,242,243,0.25),
+            rgba(224,234,252,0.35),
+            rgba(207,217,223,0.25),
+            rgba(226,235,240,0.35)
+        ),
+        url("프로젝트 v2.png") center center no-repeat;
+
+    background-size: 400% 400%, 105%;
     background-attachment: fixed;
-    
-    animation: gradientMovement 10s ease infinite;
+
+    filter: saturate(1.05);
+
+    animation:
+        gradientMovement 12s ease infinite,
+        breathingBackground 18s ease-in-out infinite alternate;
 }
 
 @keyframes gradientMovement {
@@ -47,6 +57,23 @@ body{
     100% { background-position: 0% 50%, center; }
 }
 
+@keyframes breathingBackground {
+
+    0%{
+        background-size: 400% 400%, 105%;
+    }
+
+    50%{
+        background-size: 400% 400%, 112%;
+    }
+
+    100%{
+        background-size: 400% 400%, 108%;
+    }
+
+}
+
+    
 /* 상단 흰색 바 (네비게이션) */
 .top-navbar {
     position: fixed;
