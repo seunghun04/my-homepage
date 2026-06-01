@@ -34,10 +34,21 @@ body{
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
-    background-size: 100% 100%, cover;
+    /* 💥 축소 체감을 극대화하기 위해 평소 기본 크기를 200%로 설정 */
+    background-size: 200% 200%, cover;
     background-attachment: fixed;
     
     animation: gradientMovement 15s ease infinite;
+
+    /* 👇 배경 크기가 줄어들 때 0.8초 동안 부드럽게 뒤로 쓱 빠지도록 transition 추가 */
+    transition: background-size 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 👇 버튼 클릭 시 자바스크립트로 실행될 대폭 축소(Zoom-Out) 규칙 */
+body.shrink-effect {
+    /* 💥 200%였던 그라데이션과 cover였던 패턴을 확 줄여 격자가 촘촘하게 보이게 만듭니다 */
+    background-size: 50% 50%, 40%; 
+    animation: none; /* 축소 연출 중에는 일렁임 애니메이션 일시 정지 */
 }
 
 @keyframes gradientMovement {
@@ -69,6 +80,15 @@ body{
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
+
+    /* 👇 버튼 클릭 시 하얀 상자도 부드럽게 사라지도록 transition 추가 */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* 👇 버튼 클릭 시 하얀 상자가 스르륵 투명해지며 작아지는 규칙 */
+.container.fade-out {
+    opacity: 0;
+    transform: scale(0.85);
 }
 
 h1{
@@ -126,14 +146,32 @@ button:hover{
 
 <body>
 
-<div class="container">
+<div class="container" id="mainContainer">
     <h1>스팸 필터링 프로젝트</h1>
     <p>원치 않던 메일로 고통받으셨나요?</p>
 
-    <button onclick="location.href='next.html'">
+    <button onclick="startTransition()">
         시작하기
     </button>
 </div>
+
+<script>
+function startTransition() {
+    const body = document.body;
+    const container = document.getElementById('mainContainer');
+
+    // 1. 네모 상자를 스르륵 투명하게 만듭니다.
+    container.classList.add('fade-out');
+
+    // 2. 전체 배경을 뒤로 확 축소(줌아웃)시킵니다.
+    body.classList.add('shrink-effect');
+
+    // 3. 0.8초간 연출을 다 보여준 후 다음 페이지(next.html)로 넘어갑니다.
+    setTimeout(function() {
+        location.href = 'next.html';
+    }, 800); 
+}
+</script>
 
 </body>
 </html>
