@@ -23,11 +23,11 @@ body{
 
     /* 👇 핵심 수정: 그라데이션에 반투명(rgba) 효과를 주고 이미지 위로 올렸습니다 */
     background: 
-        linear-gradient(-45deg, rgba(238, 242, 243, 0.45), rgba(224, 234, 252, 0.45), rgba(207, 217, 223, 0.45), rgba(226, 235, 240, 0.45)),
+        linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
     /* 이미지와 그라데이션이 화면 전체에 꽉 차도록 설정 */
-    background-size: 400% 400%, cover;
+    background-size: 200% 200%, cover;
     background-attachment: fixed;
     
     /* 💥 15초 동안 그라데이션이 파도치듯 은은하게 움직이는 애니메이션 (무한 반복) */
@@ -49,7 +49,7 @@ body{
 
 .container{
     /* 중앙 박스를 투명도 0.8로 주어 뒤의 움직이는 배경이 은은하게 비치도록 연출 */
-    background: rgba(255, 255, 255, 1.0);
+    background: rgba(255, 255, 255, 0.1);
     /* 유리에 반사된 듯 배경을 뿌옇게 흐리는 효과 */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -77,7 +77,7 @@ p{
 }
 
 button{
-    background:#007bff;
+    background:#bacbde;
     color:white;
     border:none;
     padding:15px 30px;
@@ -88,7 +88,7 @@ button{
 }
 
 button:hover{
-    background:#bacbde;
+    background:#76b2f5;
     transform:scale(1.05);
 }
 
