@@ -2,9 +2,91 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>두 번째 페이지</title>
-</head>
-<body>
-    <h1>여긴 다음 페이지입니다!!!!</h1>
-</body>
-</html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>스팸 필터링 프로젝트 - 메인</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Nanum Pen Script', cursive;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.5px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+
+    /* index.html과 동일한 배경 설정 */
+    background: 
+        linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
+        url("프로젝트 v2.png") center no-repeat;
+    
+    /* 💥 핵심: index.html에서 축소됐을 때의 크기(50%)를 그대로 기본값으로 유지합니다 */
+    background-size: 50% 50%, 40%; 
+    background-attachment: fixed;
+    
+    /* 혹시 다음 페이지에서도 은은한 일렁임을 원하시면 애니메이션을 켜두셔도 됩니다 */
+    animation: gradientMovement 15s ease infinite;
+}
+
+@keyframes gradientMovement {
+    0% { background-position: 0% 50%, center; }
+    50% { background-position: 100% 50%, center; }
+    100% { background-position: 0% 50%, center; }
+}
+
+.container{
+    /* 투명도 0.01 및 무삭제 blur 설정 동일하게 유지 */
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(10px);
+
+    width: 90%;            
+    max-width: 500px; /* 다음 페이지는 콘텐츠가 더 들어올 수 있으니 가로폭을 살짝 넓혀뒀습니다 */
+    padding: 35px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+    /* 👇 다음 페이지가 열릴 때 상자가 아래서 위로 부드럽게 스르륵 나타나는 애니메이션 */
+    animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+h1{
+    color:#333;
+    margin-bottom:20px;
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+/* 다음 페이지에서 사용할 수 있는 간단한 가이드 디자인 */
+.info-box {
+    font-size: 28px;
+    color: #444;
+    text-align: left;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.info-box li {
+    margin-bottom: 10px;
+    list-style-type: none;
+}
+
+button{
+    background:#bacbde;
