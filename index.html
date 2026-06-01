@@ -76,10 +76,15 @@ body.shrink-effect {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* 👇 시작하기를 눌렀을 때 1단계 내용이 사라지게 하는 애니메이션 */
+/* 👇 시작하기를 눌렀을 때 1단계 내용이 작아지며 사라지게 하는 애니메이션 */
 .step1-fade-out {
     opacity: 0;
     transform: scale(0.9);
+}
+
+/* 👇 2단계 내용이 아래에서 위로 스르륵 올라오며 나타나는 규칙 */
+.step2-fade-in {
+    animation: fadeInUpMenu 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 h1{
@@ -116,23 +121,37 @@ button:hover{
     transform:scale(1.05);
 }
 
-/* 추가: 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
+/* 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
 .button-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
     align-items: center;
     width: 100%;
-    margin-top: 15px;
+    /* 💥 글자가 다 빠졌으므로 박스 내부에서 어색하지 않게 위아래 여백 적용 */
+    padding: 15px 0; 
 }
 
 .button-group button {
     width: 100%; /* 상자 너비에 맞게 버튼 크기 통일 */
 }
 
+/* 원래 있던 첫 페이지용 애니메이션 */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* 2단계 메뉴가 밑에서 위로 솟아오르게 만드는 전용 애니메이션 */
+@keyframes fadeInUpMenu {
+    from { 
+        opacity: 0; 
+        transform: translateY(40px); /* 40px 밑에서부터 시작 */
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);    /* 원래 자리로 정착 */
+    }
 }
 </style>
 </head>
@@ -158,23 +177,22 @@ function startTransition() {
     // 1. 전체 배경을 300% -> 120%로 확 축소시킵니다.
     body.classList.add('shrink-effect');
 
-    // 2. 상자 내부의 글씨와 버튼을 부드럽게 지워줍니다.
+    // 2. 상자 내부의 1단계 글씨와 버튼을 스르륵 지워줍니다.
     contentArea.classList.add('step1-fade-out');
 
-    // 3. 지정하신 0.6초(600ms) 타이밍에 맞춰서 내부 내용물을 새로운 버튼 2개로 완전히 교체합니다.
+    // 3. 지정하신 0.6초(600ms) 타이밍에 새로운 내용으로 완전히 교체합니다.
     setTimeout(function() {
+        contentArea.classList.remove('step1-fade-out');
+        contentArea.classList.add('step2-fade-in');
+        
+        // 💥 제목과 부제목 태그를 모두 지우고 버튼 그룹만 남겼습니다!
         contentArea.innerHTML = `
-            <h1>무엇을 할까요?</h1>
-            <p>원하는 메뉴를 골라주세요.</p>
             <div class="button-group">
                 <button onclick="location.href='about.html'">프로젝트 소개 보기</button>
                 
                 <button onclick="location.href='download/spam-filter.exe'">제품 다운로드</button>
             </div>
         `;
-        
-        // 새로운 내용물이 나타날 때 투명해진 상태를 다시 원상복구 시켜서 짜잔 나타나게 합니다.
-        contentArea.classList.remove('step1-fade-out');
     }, 600); 
 }
 </script>
