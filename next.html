@@ -28,13 +28,13 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* index.html과 동일한 배경 설정 */
+    /* index.html과 동일한 배경 세팅 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
-    /* 💥 index.html에서 축소됐을 때의 크기(50%)를 그대로 유지 */
-    background-size: 50% 50%, 40%; 
+    /* 🛠️ 변경: index.html의 축소 완료 시점 크기(100% 100%, cover)와 완벽히 일치시켜 여백 유발을 차단합니다 */
+    background-size: 100% 100%, cover; 
     background-attachment: fixed;
     
     animation: gradientMovement 15s ease infinite;
@@ -47,7 +47,6 @@ body{
 }
 
 .container{
-    /* 투명도 0.01 및 blur 설정 동일하게 유지 */
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(10px);
@@ -59,7 +58,6 @@ body{
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-    /* 다음 페이지가 열릴 때 상자가 아래서 위로 부드럽게 스르륵 나타나는 애니메이션 */
     animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     opacity: 0;
     transform: translateY(40px);
@@ -86,9 +84,8 @@ h1{
     list-style-type: none;
 }
 
-/* 👇 🛠️ 잘려 있던 버튼 코드를 완벽하게 복구했습니다 */
 button{
-    background:#bacbde; /* 회원님이 적으셨던 파스텔톤 버튼 색상 */
+    background:#bacbde; 
     color:white;
     border:none;
     padding:10px 35px;
@@ -101,20 +98,13 @@ button{
 }
 
 button:hover{
-    /* 마우스 올렸을 때 하늘색으로 변하는 효과 */
     background:#64e7f6;
     transform:scale(1.05);
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
