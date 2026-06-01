@@ -72,7 +72,7 @@ body.shrink-effect {
     opacity: 0;
     transform: translateY(30px);
     
-    /* 💥 내부 전환 애니메이션을 위한 transition 유지 */
+    /* 내부 전환 애니메이션을 위한 transition */
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
@@ -116,13 +116,14 @@ button:hover{
     transform:scale(1.05);
 }
 
-/* 💥 추가: 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
+/* 추가: 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
 .button-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
     align-items: center;
     width: 100%;
+    margin-top: 15px;
 }
 
 .button-group button {
@@ -152,16 +153,15 @@ button:hover{
 <script>
 function startTransition() {
     const body = document.body;
-    const container = document.getElementById('mainContainer');
     const contentArea = document.getElementById('contentArea');
 
-    // 1. 전체 배경을 300% -> 120%로 확 축소시킵니다 (기존 효과 유지)
+    // 1. 전체 배경을 300% -> 120%로 확 축소시킵니다.
     body.classList.add('shrink-effect');
 
-    // 2. 상자 내부의 글씨와 버튼만 부드럽게 지워줍니다.
+    // 2. 상자 내부의 글씨와 버튼을 부드럽게 지워줍니다.
     contentArea.classList.add('step1-fade-out');
 
-    // 3. 지정하신 0.6초(600ms) 타이밍에 맞춰서 내부 내용물을 새로운 버튼 2개로 체체 전환합니다.
+    // 3. 지정하신 0.6초(600ms) 타이밍에 맞춰서 내부 내용물을 새로운 버튼 2개로 완전히 교체합니다.
     setTimeout(function() {
         contentArea.innerHTML = `
             <h1>무엇을 할까요?</h1>
@@ -173,7 +173,7 @@ function startTransition() {
             </div>
         `;
         
-        // 새로운 내용물이 뜰 때도 아래서 위로 스르륵 부드럽게 나타나도록 클래스 리셋
+        // 새로운 내용물이 나타날 때 투명해진 상태를 다시 원상복구 시켜서 짜잔 나타나게 합니다.
         contentArea.classList.remove('step1-fade-out');
     }, 600); 
 }
