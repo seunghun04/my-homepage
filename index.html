@@ -176,6 +176,26 @@ p{
     transition:1s;
 }
 
+    .counter-box{
+    margin-top:40px;
+    text-align:center;
+    opacity:0;
+    transition:1s;
+}
+
+.counter-label{
+    display:block;
+    color:#666;
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+#counter{
+    font-size:42px;
+    font-weight:700;
+    color:#00bcd4;
+}
+
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -220,11 +240,17 @@ p{
     <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
 </div>
 
+<div class="counter-box">
+    <span class="counter-label">차단된 스팸 메일</span>
+    <h2 id="counter">0</h2>
+</div>
+
 <script>
 const text = "스팸 필터링 프로젝트";
 const target = document.getElementById("typing-title");
 const subTitle = document.getElementById("sub-title");
-
+const counterBox = document.querySelector(".counter-box");
+const counter = document.getElementById("counter");
 let index = 0;
 
 function typing() {
@@ -237,10 +263,33 @@ function typing() {
     }
     else{
         subTitle.style.opacity = "1";
+          setTimeout(() => {
+        counterBox.style.opacity = "1";
+        startCounter();
+    }, 800);
     }
 }
 
 window.onload = typing;
+
+function startCounter(){
+
+    let current = 0;
+    let targetNum = 152847;
+
+    let timer = setInterval(() => {
+
+        current += Math.ceil((targetNum - current) / 15);
+
+        counter.innerText = current.toLocaleString();
+
+        if(current >= targetNum){
+            counter.innerText = targetNum.toLocaleString();
+            clearInterval(timer);
+        }
+
+    }, 30);
+}
 </script>
     
 </body>
