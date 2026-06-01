@@ -6,6 +6,7 @@
 
 <title>스팸 필터링 프로젝트</title>
 
+<!-- Gothic A1 폰트 불러오기 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
@@ -29,20 +30,17 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* 💥 변경: 그라디언트의 색상 대비를 살짝 주어 움직임이 눈에 잘 보이도록 보정 */
+    /* 배경 설정 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.4), rgba(224, 234, 252, 0.5), rgba(207, 217, 223, 0.4), rgba(226, 235, 240, 0.5)),
         url("프로젝트 v2.png") center no-repeat;
     
-    /* 💥 핵심 변경: 앞의 그라디언트는 400%로 크게 키우고, 뒤의 이미지는 cover로 화면에 딱 맞춥니다 */
     background-size: 400% 400%, cover;
     background-attachment: fixed;
     
-    /* 💥 변경: 배경이 부드럽게 대각선으로 일렁이도록 애니메이션 시간 조정 (10초) */
     animation: gradientMovement 10s ease infinite;
 }
 
-/* 💥 핵심 변경: 그라디언트의 위치(X, Y축)를 다각도로 움직여 일렁이는 효과 연출 */
 @keyframes gradientMovement {
     0% { background-position: 0% 50%, center; }
     50% { background-position: 100% 50%, center; }
@@ -58,25 +56,45 @@ body{
     height: 70px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-between;
+    
+    /* 삼등분 배치를 위해 grid 스타일 적용 */
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* 좌(1) : 중(자동) : 우(1) 비율 */
     align-items: center;
     padding: 0 50px;
     z-index: 1000;
 }
 
-/* 상단 바 왼쪽 로고/타이틀 */
+/* 상단 바 왼쪽 타이틀 */
 .nav-logo {
     font-size: 20px; 
     color: #222;
     font-weight: 700; 
     cursor: pointer;
+    justify-self: start; /* 왼쪽에 밀착 */
+}
+
+/* 중앙 로고 이미지 감싸는 상자 */
+.nav-center-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* 중앙 로고 이미지 자체 스타일 */
+.nav-center-logo img {
+    height: 55px; /* 상단 바 높이(70px)에 맞춰 예쁘게 조정 */
+    width: auto;  /* 가로 세로 비율 유지 */
+    object-fit: contain;
 }
 
 /* 상단 바 오른쪽 메뉴 링크 그룹 */
 .nav-menu {
     display: flex;
     gap: 40px;
+    justify-self: end; /* 오른쪽에 밀착 */
 }
 
 .nav-item {
@@ -94,7 +112,6 @@ body{
 
 /* 중앙 메시지 상자 */
 .container{
-    /* 💥 변경: 배경이 움직이므로, 글씨가 더 잘 보이도록 투명도와 블러 효과를 살짝 강화 */
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -106,7 +123,6 @@ body{
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 
-    /* 아래에서 위로 스르륵 떠오르는 애니메이션 */
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
@@ -130,7 +146,6 @@ p{
     line-height: 1.4;
 }
 
-/* 첫 등장 애니메이션 */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -140,14 +155,24 @@ p{
 
 <body>
 
+<!-- 상단 네비게이션 바 -->
 <header class="top-navbar">
+    <!-- 왼쪽: 타이틀 -->
     <div class="nav-logo" onclick="location.reload()">스팸 필터링 시스템</div>
+    
+    <!-- 💥 가운데: 수정된 파일명(ui_symbol.png)으로 로고 고정 -->
+    <div class="nav-center-logo" onclick="location.reload()">
+        <img src="ui_symbol.png" alt="대학 로고">
+    </div>
+    
+    <!-- 오른쪽: 메뉴 -->
     <nav class="nav-menu">
         <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
         <a class="nav-item" onclick="location.href='download/spam-filter.exe'">다운로드</a>
     </nav>
 </header>
 
+<!-- 중앙 메시지 상자 -->
 <div class="container">
     <h1>스팸 필터링 프로젝트</h1>
     <p>원치 않던 메일로 고통받으셨나요?</p>
