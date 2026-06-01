@@ -28,6 +28,7 @@ body{
     height:100vh;
     overflow:hidden;
 
+    /* 기존 배경 설정 100% 유지 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
@@ -70,12 +71,15 @@ body.shrink-effect {
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
+    
+    /* 💥 내부 전환 애니메이션을 위한 transition 유지 */
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.container.fade-out {
+/* 👇 시작하기를 눌렀을 때 1단계 내용이 사라지게 하는 애니메이션 */
+.step1-fade-out {
     opacity: 0;
-    transform: scale(0.85);
+    transform: scale(0.9);
 }
 
 h1{
@@ -112,6 +116,19 @@ button:hover{
     transform:scale(1.05);
 }
 
+/* 💥 추가: 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.button-group button {
+    width: 100%; /* 상자 너비에 맞게 버튼 크기 통일 */
+}
+
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -122,25 +139,42 @@ button:hover{
 <body>
 
 <div class="container" id="mainContainer">
-    <h1>스팸 필터링 프로젝트</h1>
-    <p>원치 않던 메일로 고통받으셨나요?</p>
+    <div id="contentArea">
+        <h1>스팸 필터링 프로젝트</h1>
+        <p>원치 않던 메일로 고통받으셨나요?</p>
 
-    <button onclick="startTransition()">
-        시작하기
-    </button>
+        <button onclick="startTransition()">
+            시작하기
+        </button>
+    </div>
 </div>
 
 <script>
 function startTransition() {
     const body = document.body;
     const container = document.getElementById('mainContainer');
+    const contentArea = document.getElementById('contentArea');
 
-    container.classList.add('fade-out');
+    // 1. 전체 배경을 300% -> 120%로 확 축소시킵니다 (기존 효과 유지)
     body.classList.add('shrink-effect');
 
-    // 💥 자연스러운 연결을 위해 타이밍을 0.6초로 조절
+    // 2. 상자 내부의 글씨와 버튼만 부드럽게 지워줍니다.
+    contentArea.classList.add('step1-fade-out');
+
+    // 3. 지정하신 0.6초(600ms) 타이밍에 맞춰서 내부 내용물을 새로운 버튼 2개로 체체 전환합니다.
     setTimeout(function() {
-        location.href = 'next.html';
+        contentArea.innerHTML = `
+            <h1>무엇을 할까요?</h1>
+            <p>원하는 메뉴를 골라주세요.</p>
+            <div class="button-group">
+                <button onclick="location.href='about.html'">프로젝트 소개 보기</button>
+                
+                <button onclick="location.href='download/spam-filter.exe'">제품 다운로드</button>
+            </div>
+        `;
+        
+        // 새로운 내용물이 뜰 때도 아래서 위로 스르륵 부드럽게 나타나도록 클래스 리셋
+        contentArea.classList.remove('step1-fade-out');
     }, 600); 
 }
 </script>
