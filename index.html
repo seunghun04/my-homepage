@@ -21,26 +21,39 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* 👇 웹페이지 내에서 실시간으로 생성되는 오로라 같은 그라데이션 배경 */
-    background: linear-gradient(-45deg, #eef2f3, #e0eafc, #cfd9df, #e2ebf0);
+    /* 👇 핵심 수정 부분: 정지 이미지와 움직이는 그라데이션을 겹쳐서 표현 */
     
-    /* 배경이 움직일 수 있도록 크기를 키워줍니다 */
-    background-size: 400% 400%;
+    /* 1. 먼저 정지 이미지(image_15.png)를 배치 (오른쪽 와이어프레임) */
+    background-image: url("image_15.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /* 2. 그 위에 움직이는 그라데이션 레이어를 추가 (linear-gradient) */
+    /* 그라데이션의 불투명도를 rgba로 조절하여 뒤의 이미지가 비치게 함 */
+    background-color: rgba(238, 242, 243, 0.7); /* 기본 배경색 */
     
-    /* 💥 15초 동안 배경이 아주 부드럽게 일렁이도록 애니메이션 실행 (무한 반복) */
+    /* 실제 움직이는 그라데이션 부분 (멀티 배경 적용) */
+    background: 
+        linear-gradient(-45deg, rgba(238,242,243,0.7), rgba(224,234,252,0.7), rgba(207,217,223,0.7), rgba(226,235,240,0.7)),
+        url("image_15.png") center no-repeat;
+    
+    background-size: 400% 400%, cover;
+    
+    /* 💥 15초 동안 그라데이션이 부드럽게 일렁이도록 애니메이션 실행 (무한 반복) */
     animation: gradientMovement 15s ease infinite;
 }
 
-/* 👇 배경의 색상 축이 파도치듯 서서히 변하는 애니메이션 규칙 */
+/* 👇 그라데이션의 색상 축이 파도치듯 서서히 변하는 애니메이션 규칙 */
 @keyframes gradientMovement {
     0% {
-        background-position: 0% 50%;
+        background-position: 0% 50%, center;
     }
     50% {
-        background-position: 100% 50%;
+        background-position: 100% 50%, center;
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 0% 50%, center;
     }
 }
 
