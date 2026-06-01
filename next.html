@@ -28,16 +28,20 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* index.html과 동일한 배경 세팅 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
-    /* 🛠️ 변경: index.html의 축소 완료 시점 크기(100% 100%, cover)와 완벽히 일치시켜 여백 유발을 차단합니다 */
-    background-size: 100% 100%, cover; 
     background-attachment: fixed;
     
-    animation: gradientMovement 15s ease infinite;
+    /* 💥 index.html의 마지막 크기인 120%에서 최종 크기인 100%로 줌아웃되는 애니메이션 적용 */
+    animation: nextPageShrink 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards, gradientMovement 15s ease infinite 0.8s;
+}
+
+/* 👇 next.html이 열릴 때 배경이 부드럽게 한 번 더 축소되는 규칙 */
+@keyframes nextPageShrink {
+    from { background-size: 120% 120%, cover; }
+    to { background-size: 100% 100%, cover; }
 }
 
 @keyframes gradientMovement {
@@ -58,7 +62,8 @@ body{
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-    animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    /* 배경이 줄어드는 타이밍에 맞춰 조금 더 고급스럽게 페이드인 */
+    animation: fadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
     opacity: 0;
     transform: translateY(40px);
 }
