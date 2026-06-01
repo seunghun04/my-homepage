@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>스팸 필터링 프로젝트</title>
+<h1 id="typing-title"></h1>
 
 <!-- Gothic A1 폰트 불러오기 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -175,6 +175,18 @@ p{
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+#typing-title::after{
+    content:"|";
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0;
+    }
+}
+    
 </style>
 </head>
 
@@ -203,8 +215,25 @@ p{
     <p>원치 않던 메일로 고통받으셨나요?</p>
 </div>
 
+<script>
+const text = "스팸 필터링 프로젝트";
+const target = document.getElementById("typing-title");
+
+let index = 0;
+
+function typing() {
+    if (index < text.length) {
+        target.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typing, 120);
+    }
+}
+
+window.onload = typing;
+</script>
+
+    
 </body>
 </html>
 
-</body>
-</html>
+
