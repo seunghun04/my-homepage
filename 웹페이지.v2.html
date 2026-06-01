@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>내 첫 홈페이지</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    /* 바탕화면에 있는 PNG 파일 */
+    background-image:url("프로젝트 v2.png");
+
+    /* 화면 전체에 배경 채우기 */
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    font-family:Arial, sans-serif;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+}
+
+.container{
+    background:rgba(255,255,255,0.85);
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#333;
+    margin-bottom:15px;
+}
+
+p{
+    color:#555;
+    margin-bottom:25px;
+    font-size:18px;
+}
+
+button{
+    background:#007bff;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0056b3;
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>내 첫 홈페이지</h1>
+    <p>HTML + CSS로 만든 웹페이지</p>
+
+    <button onclick="location.href='웹페이지.v2(2).html'">
+        시작하기
+    </button>
+</div>
+
+</body>
+</html>
