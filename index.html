@@ -23,31 +23,23 @@ body{
     letter-spacing: 0.5px;
 
     display:flex;
+    flex-direction: column; 
     justify-content:center;
     align-items:center;
     height:100vh;
     overflow:hidden;
 
-    /* 기존 배경 설정 100% 유지 */
+    /* 은은하게 움직이는 배경 설정 유지 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
-    /* 💥 축소 효과 체감을 위해 평소 크기를 300%로 대폭 확대 */
-    background-size: 300% 300%, cover;
+    /* 배경이 꽉 차게 보이도록 150%로 설정 */
+    background-size: 150% 150%, cover;
     background-attachment: fixed;
     
+    /* 배경 일렁임 애니메이션 */
     animation: gradientMovement 15s ease infinite;
-
-    /* 💥 속도감을 더 주기 위해 0.6초간 빠르게 축소되도록 변경 */
-    transition: background-size 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* 👇 버튼 클릭 시 실행될 규칙 */
-body.shrink-effect {
-    /* 💥 버튼 누르면 120% 크기로 확 축소시킵니다! */
-    background-size: 120% 120%, cover; 
-    animation: none; 
 }
 
 @keyframes gradientMovement {
@@ -56,40 +48,73 @@ body.shrink-effect {
     100% { background-position: 0% 50%, center; }
 }
 
+/* 상단 흰색 바 (네비게이션) */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    z-index: 1000;
+}
+
+/* 상단 바 왼쪽 로고/타이틀 */
+.nav-logo {
+    font-size: 32px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 상단 바 오른쪽 메뉴 링크 그룹 */
+.nav-menu {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-item {
+    font-size: 28px;
+    color: #444;
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: #64e7f6;
+}
+
+/* 중앙 메시지 상자 */
 .container{
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(10px);
 
     width: 90%;            
-    max-width: 420px;
-    padding: 25px 35px;
+    max-width: 450px;
+    /* 버튼이 빠졌으므로 아래쪽 여백(padding)을 줄여서 균형을 맞췄습니다 */
+    padding: 40px 35px; 
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
+    /* 아래에서 위로 스르륵 떠오르는 애니메이션 유지 */
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
     
-    /* 내부 전환 애니메이션을 위한 transition */
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* 👇 시작하기를 눌렀을 때 1단계 내용이 작아지며 사라지게 하는 애니메이션 */
-.step1-fade-out {
-    opacity: 0;
-    transform: scale(0.9);
-}
-
-/* 👇 2단계 내용이 아래에서 위로 스르륵 올라오며 나타나는 규칙 */
-.step2-fade-in {
-    animation: fadeInUpMenu 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    margin-top: 70px; 
 }
 
 h1{
     color:#333;
-    margin-bottom:10px;
+    margin-bottom:15px;
     font-size: 56px;
     font-weight: 400;
     line-height: 1.1;
@@ -97,105 +122,35 @@ h1{
 
 p{
     color:#555;
-    margin-bottom:30px;
+    /* 버튼이 없으므로 margin-bottom을 0으로 만들어 상자 한가운데 예쁘게 정렬되도록 했습니다 */
+    margin-bottom: 0; 
     font-size: 34px;
     font-weight: 400;
     line-height: 1.1;
 }
 
-button{
-    background:#bacbde;
-    color:white;
-    border:none;
-    padding:10px 35px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.3s;
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: 30px;
-    line-height: 1;
-}
-
-button:hover{
-    background:#39acf3;
-    transform:scale(1.05);
-}
-
-/* 2단계 버튼 두 개를 세로로 예쁘게 정렬해주는 스타일 */
-.button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    width: 100%;
-    /* 💥 글자가 다 빠졌으므로 박스 내부에서 어색하지 않게 위아래 여백 적용 */
-    padding: 15px 0; 
-}
-
-.button-group button {
-    width: 100%; /* 상자 너비에 맞게 버튼 크기 통일 */
-}
-
-/* 원래 있던 첫 페이지용 애니메이션 */
+/* 스르륵 떠오르는 첫 등장 애니메이션 */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-/* 2단계 메뉴가 밑에서 위로 솟아오르게 만드는 전용 애니메이션 */
-@keyframes fadeInUpMenu {
-    from { 
-        opacity: 0; 
-        transform: translateY(40px); /* 40px 밑에서부터 시작 */
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0);    /* 원래 자리로 정착 */
-    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="mainContainer">
-    <div id="contentArea">
-        <h1>스팸 필터링 프로젝트</h1>
-        <p>원치 않던 메일로 고통받으셨나요?</p>
+<header class="top-navbar">
+    <div class="nav-logo" onclick="location.reload()">스팸 필터링 시스템</div>
+    <nav class="nav-menu">
+        <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
+        <a class="nav-item" onclick="location.href='download/spam-filter.exe'">다운로드</a>
+    </nav>
+</header>
 
-        <button onclick="startTransition()">
-            시작하기
-        </button>
-    </div>
+<div class="container">
+    <h1>스팸 필터링 프로젝트</h1>
+    <p>원치 않던 메일로 고통받으셨나요?</p>
 </div>
-
-<script>
-function startTransition() {
-    const body = document.body;
-    const contentArea = document.getElementById('contentArea');
-
-    // 1. 전체 배경을 300% -> 120%로 확 축소시킵니다.
-    body.classList.add('shrink-effect');
-
-    // 2. 상자 내부의 1단계 글씨와 버튼을 스르륵 지워줍니다.
-    contentArea.classList.add('step1-fade-out');
-
-    // 3. 지정하신 0.6초(600ms) 타이밍에 새로운 내용으로 완전히 교체합니다.
-    setTimeout(function() {
-        contentArea.classList.remove('step1-fade-out');
-        contentArea.classList.add('step2-fade-in');
-        
-        // 💥 제목과 부제목 태그를 모두 지우고 버튼 그룹만 남겼습니다!
-        contentArea.innerHTML = `
-            <div class="button-group">
-                <button onclick="location.href='about.html'">프로젝트 소개 보기</button>
-                
-                <button onclick="location.href='download/spam-filter.exe'">제품 다운로드</button>
-            </div>
-        `;
-    }, 600); 
-}
-</script>
 
 </body>
 </html>
