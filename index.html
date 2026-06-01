@@ -28,25 +28,24 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* 배경 설정 */
     background: 
         linear-gradient(-45deg, rgba(238, 242, 243, 0.1), rgba(224, 234, 252, 0.1), rgba(207, 217, 223, 0.1), rgba(226, 235, 240, 0.1)),
         url("프로젝트 v2.png") center no-repeat;
     
-    /* 🛠️ 변경: 평소에는 이미지가 화면을 빈틈없이 꽉 채우도록 150%로 넉넉하게 설정 */
-    background-size: 150% 150%, cover;
+    /* 💥 축소 효과 체감을 위해 평소 크기를 300%로 대폭 확대 */
+    background-size: 300% 300%, cover;
     background-attachment: fixed;
     
     animation: gradientMovement 15s ease infinite;
 
-    /* 배경 크기 변화를 0.8초간 부드럽게 연결 */
-    transition: background-size 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    /* 💥 속도감을 더 주기 위해 0.6초간 빠르게 축소되도록 변경 */
+    transition: background-size 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* 👇 버튼 클릭 시 body에 shrink-effect가 붙을 때 */
+/* 👇 버튼 클릭 시 실행될 규칙 */
 body.shrink-effect {
-    /* 🛠️ 변경: 이미지가 쪼개져서 정사각 박스로 남지 않도록, 화면 높이/너비에 딱 맞게(100%) 축소시킵니다 */
-    background-size: 100% 100%, cover; 
+    /* 💥 버튼 누르면 120% 크기로 확 축소시킵니다! */
+    background-size: 120% 120%, cover; 
     animation: none; 
 }
 
@@ -71,7 +70,7 @@ body.shrink-effect {
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .container.fade-out {
@@ -139,9 +138,10 @@ function startTransition() {
     container.classList.add('fade-out');
     body.classList.add('shrink-effect');
 
+    // 💥 자연스러운 연결을 위해 타이밍을 0.6초로 조절
     setTimeout(function() {
         location.href = 'next.html';
-    }, 800); 
+    }, 600); 
 }
 </script>
 
