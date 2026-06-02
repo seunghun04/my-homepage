@@ -10,25 +10,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
+body {
     font-family: 'Gothic A1', sans-serif;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
 
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    overflow:hidden;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 
-    /* 원본 배경 설정 보존 */
+    /* 원본 배경 설정 100% 보존 */
     background:
         linear-gradient(
             -45deg,
@@ -56,9 +56,9 @@ body{
 }
 
 @keyframes breathingBackground {
-    0%{ background-size: 400% 400%, 105%; }
-    50%{ background-size: 400% 400%, 112%; }
-    100%{ background-size: 400% 400%, 108%; }
+    0% { background-size: 400% 400%, 105%; }
+    50% { background-size: 400% 400%, 112%; }
+    100% { background-size: 400% 400%, 108%; }
 }
 
 /* 상단 흰색 바 (네비게이션) */
@@ -75,7 +75,7 @@ body{
     grid-template-columns: 1fr auto 1fr; 
     align-items: center;
     padding: 0 50px;
-    z-index: 2000; /* 메뉴 활성화 시 블러 레이어보다 위에 있도록 상향 조절 */
+    z-index: 2000;
 }
 
 .nav-logo {
@@ -133,7 +133,7 @@ body{
 .side-navbar {
     position: fixed;
     top: 0;
-    right: -300px; /* 초기 상태: 화면 오른쪽 바깥에 숨김 */
+    right: -300px;
     width: 280px;
     height: 100vh;
     background: rgba(255, 255, 255, 0.98);
@@ -146,14 +146,13 @@ body{
     z-index: 2500;
 }
 
-/* 햄버거 영역 및 사이드바 호버 감지 작동 */
 .nav-menu-wrapper:hover .side-navbar,
 .side-navbar:hover {
-    right: 0; /* 마우스 오버 시 슬라이딩 인 */
+    right: 0;
 }
 
 .nav-menu-wrapper:hover .hamburger-btn span {
-    background-color: #00bcd4; /* 호버 시 아이콘 색상 변경 */
+    background-color: #00bcd4;
 }
 
 /* 사이드바 내부 전용 아이템 디자인 */
@@ -176,93 +175,86 @@ body{
     padding-left: 22px;
 }
 
-/* [집중 효과 고도화] 메뉴 열릴 때 뒤쪽 화면 전체를 흐리게 밀폐할 백드롭 레이어 */
+/* [안전성 확보] 레이아웃에 영향을 주지 않도록 독립된 화면 전체 차단 레이어 설정 */
 .blur-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
     opacity: 0;
-    pointer-events: none; /* 중요: 평소에 클릭 흐름을 절대 방해하지 않음 */
-    z-index: 1005; /* 메인 콘텐츠(1000)보다 위에 배치 */
-    transition: all 0.4s ease;
+    pointer-events: none;
+    z-index: 1200; /* 상단바(2000)보단 아래, 메인콘텐츠(1000)보단 위 */
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
 }
 
-/* 햄버거 버튼이 포함된 상단바 내부에 마우스가 올라가거나, 확장 메뉴 활성화 시 블러 가동 */
-.top-navbar:has(.nav-menu-wrapper:hover) ~ .blur-overlay,
-.top-navbar:has(.side-navbar:hover) ~ .blur-overlay {
+/* 삼색 바 패널에 마우스를 올렸을 때 메인 화면 전체를 부드럽게 흐림 처리 */
+.nav-menu-wrapper:hover ~ .blur-overlay {
     opacity: 1;
-    background: rgba(0, 0, 0, 0.02); /* 아주 미세한 명도 대조 */
+    background: rgba(0, 0, 0, 0.01);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
 
-
-/* 중앙 메시지 상자 원본 레이아웃 구조체 유지 */
-.container{
+/* 중앙 메시지 상자 원본 레이아웃 완전 유지 */
+.container {
     background: transparent;
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-
     width: 90%;
     max-width: 480px;
     text-align: center;
-
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
-
     margin-top: 70px;
-    z-index: 1000; /* 블러 오버레이 밑에서 정상 배치 */
+    z-index: 1000;
 }
 
-h1{
-    color:#222;
-    margin-bottom:12px;
+h1 {
+    color: #222;
+    margin-bottom: 12px;
     font-size: 32px; 
     font-weight: 700; 
     line-height: 1.3;
     display: inline-block;
 }
 
-p{
-    color:#555;
+p {
+    color: #555;
     margin-bottom: 0; 
     font-size: 18px; 
     font-weight: 400; 
     line-height: 1.4;
 }
 
-#sub-title{
-    opacity:0;
-    transition:1s;
+#sub-title {
+    opacity: 0;
+    transition: 1s;
 }
 
-.counter-box{
-    margin-top:40px;
-    text-align:center;
-    opacity:0;
-    transition:1s;
+.counter-box {
+    margin-top: 40px;
+    text-align: center;
+    opacity: 0;
+    transition: 1s;
     z-index: 1000;
 }
 
-.counter-label{
-    display:block;
-    color:#666;
-    font-size:20px;
-    font-weight:600;
-    margin-bottom:20px;
+.counter-label {
+    display: block;
+    color: #666;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
-#counter{
-    font-size:42px;
-    font-weight:700;
-    color:#00bcd4;
+#counter {
+    font-size: 42px;
+    font-weight: 700;
+    color: #00bcd4;
 }
 
 @keyframes fadeInUp {
@@ -270,16 +262,16 @@ p{
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* [복구 보장] 가상요소(|) 깜빡임 커서 완벽 작동 구조 */
-#typing-title::after{
-    content:"|";
+/* 가상요소(|) 깜빡임 커서 원본 로직 유지 */
+#typing-title::after {
+    content: "|";
     animation: blink 0.8s infinite;
     font-weight: 400;
     margin-left: 3px;
 }
 
-@keyframes blink{
-    50%{ opacity:0; }
+@keyframes blink {
+    50% { opacity: 0; }
 }
 </style>
 </head>
@@ -305,9 +297,9 @@ p{
             <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
         </nav>
     </div>
-</header>
 
-<div class="blur-overlay"></div>
+    <div class="blur-overlay"></div>
+</header>
 
 <div class="container">
     <h1 id="typing-title"></h1>
@@ -361,90 +353,3 @@ function startCounter(){
 </script>
 </body>
 </html>
-
-/* [집중 효과 고도화] 메뉴 열릴 때 뒤쪽 화면 전체를 흐리게 밀폐할 백드롭 레이어 */
-.blur-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    opacity: 0;
-    pointer-events: none; /* 중요: 평소에 클릭 흐름을 절대 방해하지 않음 */
-    z-index: 1005; /* 메인 콘텐츠(1000)보다 위에 배치 */
-    transition: all 0.4s ease;
-}
-
-/* 햄버거 버튼이 포함된 상단바 내부에 마우스가 올라가거나, 확장 메뉴 활성화 시 블러 가동 */
-.top-navbar:has(.nav-menu-wrapper:hover) ~ .blur-overlay,
-.top-navbar:has(.side-navbar:hover) ~ .blur-overlay {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.02); /* 아주 미세한 명도 대조 */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-
-/* 중앙 메시지 상자 원본 레이아웃 구조체 유지 */
-.container{
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-
-    width: 90%;
-    max-width: 480px;
-    text-align: center;
-
-    animation: fadeInUp 1s ease-out forwards;
-    opacity: 0;
-    transform: translateY(30px);
-
-    margin-top: 70px;
-    z-index: 1000; /* 블러 오버레이 밑에서 정상 배치 */
-}
-
-h1{
-    color:#222;
-    margin-bottom:12px;
-    font-size: 32px; 
-    font-weight: 700; 
-    line-height: 1.3;
-    display: inline-block;
-}
-
-p{
-    color:#555;
-    margin-bottom: 0; 
-    font-size: 18px; 
-    font-weight: 400; 
-    line-height: 1.4;
-}
-
-#sub-title{
-    opacity:0;
-    transition:1s;
-}
-
-.counter-box{
-    margin-top:40px;
-    text-align:center;
-    opacity:0;
-    transition:1s;
-    z-index: 1000;
-}
-
-.counter-label{
-    display:block;
-    color:#666;
-    font-size:20px;
-    font-weight:600;
-    margin-bottom:20px;
-}
-
-#counter{
-    font-size:42px;
-    font-weight:70
