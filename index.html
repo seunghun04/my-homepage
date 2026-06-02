@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -28,7 +28,6 @@ body{
     height:100vh;
     overflow:hidden;
 
-    /* 원본 배경 설정 보존 */
     background:
         linear-gradient(
             -45deg,
@@ -41,7 +40,6 @@ body{
 
     background-size: 400% 400%, 105%;
     background-attachment: fixed;
-
     filter: saturate(1.05);
 
     animation:
@@ -61,7 +59,7 @@ body{
     100%{ background-size: 400% 400%, 108%; }
 }
 
-/* 상단 흰색 바 (네비게이션) */
+/* 상단 흰색 바 */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -70,7 +68,6 @@ body{
     height: 70px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    
     display: grid;
     grid-template-columns: 1fr auto 1fr; 
     align-items: center;
@@ -78,29 +75,10 @@ body{
     z-index: 1000;
 }
 
-.nav-logo {
-    font-size: 20px; 
-    color: #222;
-    font-weight: 700; 
-    cursor: pointer;
-    justify-self: start;
-}
+.nav-logo { font-size: 20px; color: #222; font-weight: 700; cursor: pointer; justify-self: start; }
+.nav-center-logo { display: flex; justify-content: center; align-items: center; height: 100%; cursor: pointer; }
+.nav-center-logo img { height: 55px; width: auto; object-fit: contain; }
 
-.nav-center-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    cursor: pointer;
-}
-
-.nav-center-logo img {
-    height: 55px; 
-    width: auto;  
-    object-fit: contain;
-}
-
-/* [새로운 설계] 우측 햄버거 메뉴 감싸는 전용 영역 */
 .nav-menu-wrapper {
     justify-self: end;
     height: 70px;
@@ -110,7 +88,6 @@ body{
     cursor: pointer;
 }
 
-/* 3줄 햄버거 버튼 디자인 */
 .hamburger-btn {
     display: flex;
     flex-direction: column;
@@ -129,15 +106,17 @@ body{
     transition: all 0.3s ease;
 }
 
-/* 마우스 커서를 올렸을 때 오른쪽 측면에서 등장하는 보드 */
+/* [개선 1] 우측 사이드바 패널 흐림 효과(Blur) 추가 */
 .side-navbar {
     position: fixed;
     top: 0;
-    right: -300px; /* 초기 상태: 화면 오른쪽 바깥에 숨김 */
+    right: -300px;
     width: 280px;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.85); /* 투명도를 살짝 주고 */
+    backdrop-filter: blur(15px); /* 뒷배경을 흐리게 처리 */
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     padding: 100px 30px 40px 30px;
@@ -146,20 +125,18 @@ body{
     z-index: 1500;
 }
 
-/* 햄버거 영역 및 사이드바 호버 감지 작동 */
 .nav-menu-wrapper:hover .side-navbar,
 .side-navbar:hover {
-    right: 0; /* 마우스 오버 시 슬라이딩 인 */
+    right: 0;
 }
 
 .nav-menu-wrapper:hover .hamburger-btn span {
-    background-color: #00bcd4; /* 호버 시 아이콘 색상 변경 */
+    background-color: #00bcd4;
 }
 
-/* 사이드바 내부 전용 아이템 디자인 */
 .nav-item {
     font-size: 18px; 
-    color: #444;
+    color: #333;
     font-weight: 600;
     text-decoration: none;
     padding: 12px 15px;
@@ -176,21 +153,15 @@ body{
     padding-left: 22px;
 }
 
-/* 중앙 메시지 상자 원본 유지 */
+/* 중앙 메시지 상자 */
 .container{
     background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-
     width: 90%;
     max-width: 480px;
     text-align: center;
-
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
-
     margin-top: 70px;
 }
 
@@ -200,14 +171,17 @@ h1{
     font-size: 32px; 
     font-weight: 700; 
     line-height: 1.3;
+    display: inline-block;
 }
 
 p{
-    color:#555;
+    color:#444;
     margin-bottom: 0; 
     font-size: 18px; 
     font-weight: 400; 
     line-height: 1.4;
+    /* [개선 2] 연한 배경 패턴 위에서도 텍스트가 잘 보이도록 그림자 추가 */
+    text-shadow: 0 1px 5px rgba(255, 255, 255, 0.8);
 }
 
 #sub-title{
@@ -224,14 +198,17 @@ p{
 
 .counter-label{
     display:block;
-    color:#666;
-    font-size:20px;
+    color:#555;
+    font-size:18px;
     font-weight:600;
-    margin-bottom:20px;
+    margin-bottom:15px;
+    text-shadow: 0 1px 5px rgba(255, 255, 255, 0.8);
 }
 
 #counter{
-    font-size:42px;
+    /* [개선 4] 숫자가 더 스마트하고 정밀해 보이도록 Montserrat 영문 숫자 폰트 지정 */
+    font-family: 'Montserrat', sans-serif;
+    font-size:46px;
     font-weight:700;
     color:#00bcd4;
 }
@@ -241,14 +218,23 @@ p{
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 타이핑 텍스트 커서 깜빡임 효과 보존 */
-#typing-title::after{
-    content:"|";
-    animation: blink 0.8s infinite;
+/* [개선 3] 투박한 기호 대신 세련된 우측 테두리선(border) 커서 효과 */
+#typing-title {
+    border-right: 3px solid #222;
+    padding-right: 4px;
+    animation: blink 0.8s step-end infinite;
 }
 
+/* 타이핑 진행 중일 때 깜빡이는 효과 */
 @keyframes blink{
-    50%{ opacity:0; }
+    from, to { border-color: transparent }
+    50% { border-color: #222; }
+}
+
+/* [개선 3] 타이핑 종료 후 커서를 없애기 위한 클래스 */
+#typing-title.type-done {
+    border-right: 3px solid transparent !important;
+    animation: none;
 }
 </style>
 </head>
@@ -301,6 +287,9 @@ function typing() {
         setTimeout(typing, 120);
     }
     else{
+        // [개선 3] 타이핑이 완료되면 우측 세로선 커서 숨김 클래스 추가
+        target.classList.add('type-done');
+        
         subTitle.style.opacity = "1";
         setTimeout(() => {
             counterBox.style.opacity = "1";
