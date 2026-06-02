@@ -10,8 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* 기존 메인 스타일 및 배경 애니메이션 적용 */
 *{ margin:0; padding:0; box-sizing:border-box; }
+
 body{
     font-family: 'Gothic A1', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -23,14 +23,15 @@ body{
     height:100vh;
     overflow:hidden;
     
-    /* 제품소개 페이지와 동일한 배경 설정 및 투명도 보정 */
-    background: linear-gradient(-45deg, rgba(238,242,243,0.15), rgba(224,234,252,0.2), rgba(207,217,223,0.15), rgba(226,235,240,0.2)), 
+    /* 메인 및 제품소개와 완벽히 동일한 배경 및 그라데이션 설정 */
+    background: linear-gradient(-45deg, rgba(238,242,243,0.25), rgba(224,234,252,0.35), rgba(207,217,223,0.25), rgba(226,235,240,0.35)), 
                 url("프로젝트 v3.png") center center no-repeat;
     
     background-attachment: fixed;
-    background-size: 400% 400%, 100% 100%;
     
-    filter: saturate(1.1) contrast(1.02);
+    /* 배경 이미지가 찌그러지거나 흐려지지 않도록 원본 비율 유지 설정 */
+    background-size: 400% 400%, cover;
+    filter: saturate(1.05);
     
     /* 애니메이션 동시 적용 */
     animation: gradientMovement 12s ease infinite, breathingBackground 18s ease-in-out infinite alternate;
@@ -43,16 +44,16 @@ body{
     100% { background-position: 0% 50%, center; } 
 }
 
-/* 배경 숨쉬기 애니메이션 (하얗게 깨지는 현상 방지) */
+/* 숨쉬는 효과 시 이미지 원본 비율을 유지하며 스케일링하는 애니메이션 */
 @keyframes breathingBackground { 
     0%{ 
-        background-size: 400% 400%, 100% 100%; 
+        background-size: 400% 400%, 105%; 
     } 
     50%{ 
-        background-size: 400% 400%, 106% 106%; 
+        background-size: 400% 400%, 112%; 
     } 
     100%{ 
-        background-size: 400% 400%, 103% 103%; 
+        background-size: 400% 400%, 108%; 
     } 
 }
 
@@ -70,7 +71,7 @@ body{
 
 /* 다운로드 페이지 전용 콘텐츠 박스 (중앙 흰색 상자 유지) */
 .download-container {
-    background: rgba(255, 255, 255, 0); /* 기존 코드 스타일에 맞춰 투명도를 유지하거나, 필요시 투명도를 조절하세요 */
+    background: rgba(255, 255, 255, 0);
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.0);
@@ -84,40 +85,4 @@ body{
 }
 .download-title {
     font-size: 28px;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #00bcd4;
-    padding-bottom: 10px;
-}
-.download-text {
-    font-size: 16px;
-    color: #444;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
-</head>
-<body>
-
-<header class="top-navbar">
-    <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
-    <div class="nav-center-logo" onclick="location.href='index.html'"><img src="ui_symbol.png" alt="대학 로고"></div>
-    <nav class="nav-menu">
-        <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
-        <a class="nav-item" onclick="location.href='download.html'" style="color: #00bcd4;">다운로드</a>
-    </nav>
-</header>
-
-<div class="download-container">
-    <h2 class="download-title">다운로드</h2>
-    <p class="download-text">설치 파일을 다운로드하여 안전한 메일 환경을 구축해 보세요.</p>
-    </div>
-
-</body>
-</html>
+    font-weight: 7
