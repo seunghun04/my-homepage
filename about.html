@@ -23,38 +23,15 @@ body{
     height:100vh;
     overflow:hidden;
     
-    /* [수정] 메인과 동일하게 이미지 비율을 유지하는 그라데이션 및 배경 설정 */
-    background: linear-gradient(-45deg, rgba(238,242,243,0.25), rgba(224,234,252,0.35), rgba(207,217,223,0.25), rgba(226,235,240,0.35)), 
+    /* [수정] 애니메이션용 움직이는 그라데이션 대신, 원본 이미지를 부드럽게 감싸는 은은한 단층 배경색 적용 */
+    background: linear-gradient(rgba(240, 244, 248, 0.4), rgba(240, 244, 248, 0.4)), 
                 url("프로젝트 v3.png") center center no-repeat;
     
+    /* [수정] 배경 이미지가 스크롤되거나 움직이지 않고 화면에 딱 고정되도록 설정 */
     background-attachment: fixed;
     
-    /* [핵심 수정] 첫 이미지 비율이 안 깨지도록 400%와 cover(또는 105%)를 정밀 분리 */
-    background-size: 400% 400%, cover;
-    filter: saturate(1.05);
-    
-    /* 애니메이션 동시 적용 */
-    animation: gradientMovement 12s ease infinite, breathingBackground 18s ease-in-out infinite alternate;
-}
-
-/* 그라데이션 이동 애니메이션 (기존 메인 코드 유지) */
-@keyframes gradientMovement { 
-    0% { background-position: 0% 50%, center; } 
-    50% { background-position: 100% 50%, center; } 
-    100% { background-position: 0% 50%, center; } 
-}
-
-/* [핵심 수정] 숨쉬는 효과 시 이미지가 늘어나서 흐려지지 않고, 원본 비율을 유지하며 스케일링되도록 보정 */
-@keyframes breathingBackground { 
-    0%{ 
-        background-size: 400% 400%, 105%; 
-    } 
-    50%{ 
-        background-size: 400% 400%, 112%; 
-    } 
-    100%{ 
-        background-size: 400% 400%, 108%; 
-    } 
+    /* [수정] 이미지 비율이 깨지거나 강제로 늘어나지 않고, 화면 크기에 맞춰 꽉 차도록 cover 설정 */
+    background-size: cover;
 }
 
 /* 상단 네비게이션 바 */
@@ -81,7 +58,7 @@ body{
     max-width: 600px;
     text-align: left;
     margin-top: 40px;
-    animation: fadeInUp 0.8s ease-out forwards;
+    animation: fadeInUp 0.8s ease-out forwards; /* 텍스트가 밑에서 위로 부드럽게 올라오는 최초 등장 효과만 유지 */
 }
 .about-title {
     font-size: 28px;
