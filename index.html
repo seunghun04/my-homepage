@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동화 필터링 시스템 - 메인</title>
 
-
-
-<!-- Gothic A1 폰트 불러오기 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
@@ -58,22 +56,11 @@ body{
 }
 
 @keyframes breathingBackground {
-
-    0%{
-        background-size: 400% 400%, 105%;
-    }
-
-    50%{
-        background-size: 400% 400%, 112%;
-    }
-
-    100%{
-        background-size: 400% 400%, 108%;
-    }
-
+    0%{ background-size: 400% 400%, 105%; }
+    50%{ background-size: 400% 400%, 112%; }
+    100%{ background-size: 400% 400%, 108%; }
 }
 
-    
 /* 상단 흰색 바 (네비게이션) */
 .top-navbar {
     position: fixed;
@@ -84,24 +71,21 @@ body{
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     
-    /* 삼등분 배치를 위해 grid 스타일 적용 */
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* 좌(1) : 중(자동) : 우(1) 비율 */
+    grid-template-columns: 1fr auto 1fr; 
     align-items: center;
     padding: 0 50px;
     z-index: 1000;
 }
 
-/* 상단 바 왼쪽 타이틀 */
 .nav-logo {
     font-size: 20px; 
     color: #222;
     font-weight: 700; 
     cursor: pointer;
-    justify-self: start; /* 왼쪽에 밀착 */
+    justify-self: start;
 }
 
-/* 중앙 로고 이미지 감싸는 상자 */
 .nav-center-logo {
     display: flex;
     justify-content: center;
@@ -110,18 +94,16 @@ body{
     cursor: pointer;
 }
 
-/* 중앙 로고 이미지 자체 스타일 */
 .nav-center-logo img {
-    height: 55px; /* 상단 바 높이(70px)에 맞춰 예쁘게 조정 */
-    width: auto;  /* 가로 세로 비율 유지 */
+    height: 55px; 
+    width: auto;  
     object-fit: contain;
 }
 
-/* 상단 바 오른쪽 메뉴 링크 그룹 */
 .nav-menu {
     display: flex;
     gap: 40px;
-    justify-self: end; /* 오른쪽에 밀착 */
+    justify-self: end;
 }
 
 .nav-item {
@@ -139,7 +121,7 @@ body{
 
 /* 중앙 메시지 상자 */
 .container{
-     background: transparent;
+    background: transparent;
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -171,20 +153,20 @@ p{
     line-height: 1.4;
 }
 
-    #sub-title{
+#sub-title{
     opacity:0;
     transition:1s;
 }
 
-    .counter-box{
-     margin-top:40px;
+.counter-box{
+    margin-top:40px;
     text-align:center;
     opacity:0;
     transition:1s;
 }
 
 .counter-label{
-   display:block;
+    display:block;
     color:#666;
     font-size:20px;
     font-weight:600;
@@ -208,34 +190,26 @@ p{
 }
 
 @keyframes blink{
-    50%{
-        opacity:0;
-    }
+    50%{ opacity:0; }
 }
-    
 </style>
 </head>
 
 <body>
 
-<!-- 상단 네비게이션 바 -->
 <header class="top-navbar">
-    <!-- 왼쪽: 타이틀 -->
-    <div class="nav-logo" onclick="location.reload()">자동화 필터링 시스템</div>
+    <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
     
-    <!-- 💥 가운데: 수정된 파일명(ui_symbol.png)으로 로고 고정 -->
-    <div class="nav-center-logo" onclick="location.reload()">
+    <div class="nav-center-logo" onclick="location.href='index.html'">
         <img src="ui_symbol.png" alt="대학 로고">
     </div>
     
-    <!-- 오른쪽: 메뉴 -->
     <nav class="nav-menu">
         <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
-        <a class="nav-item" onclick="location.href='download/spam-filter.exe'">다운로드</a>
+        <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
     </nav>
 </header>
 
-<!-- 중앙 메시지 상자 -->
 <div class="container">
     <h1 id="typing-title"></h1>
     <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
@@ -255,45 +229,37 @@ const counter = document.getElementById("counter");
 let index = 0;
 
 function typing() {
-
     if(index < text.length){
         target.innerHTML += text.charAt(index);
         index++;
-
         setTimeout(typing, 120);
     }
     else{
         subTitle.style.opacity = "1";
-          setTimeout(() => {
-        counterBox.style.opacity = "1";
-        startCounter();
-    }, 800);
+        setTimeout(() => {
+            counterBox.style.opacity = "1";
+            startCounter();
+        }, 800);
     }
 }
 
 window.onload = typing;
 
 function startCounter(){
-
     let current = 0;
     let targetNum = 152847;
 
     let timer = setInterval(() => {
-
         current += Math.ceil((targetNum - current) / 15);
-
         counter.innerText = current.toLocaleString();
 
         if(current >= targetNum){
             counter.innerText = targetNum.toLocaleString();
             clearInterval(timer);
         }
-
     }, 30);
 }
 </script>
-    
 </body>
 </html>
-
 
