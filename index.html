@@ -30,7 +30,7 @@ body {
     background-color: #fff;
 }
 
-/* [구조 개혁] 배경 이미지를 독립 레이어로 분리하여 텍스트 왜곡 없이 순수하게 흐려지도록 설정 */
+/* [배경 최적화] 가져오신 giphy.gif 파일과 완벽하게 매칭되는 독립 레이어 */
 .main-background {
     position: fixed;
     top: 0;
@@ -39,38 +39,14 @@ body {
     height: 100vh;
     z-index: 1;
     
-    /* 원본 배경 디자인 완전 보존 */
-    background:
-        linear-gradient(
-            -45deg,
-            rgba(238,242,243,0.25),
-            rgba(224,234,252,0.35),
-            rgba(207,217,223,0.25),
-            rgba(226,235,240,0.35)
-        ),
-        url("프로젝트 v2.png") center center no-repeat;
-
-    background-size: 400% 400%, 105%;
-    background-attachment: fixed;
-    filter: saturate(1.05);
-
-    animation:
-        gradientMovement 12s ease infinite,
-        breathingBackground 18s ease-in-out infinite alternate;
-        
-    transition: filter 0.4s ease; /* 호버 시 부드러운 흐림 전환 */
-}
-
-@keyframes gradientMovement {
-    0% { background-position: 0% 50%, center; }
-    50% { background-position: 100% 50%, center; }
-    100% { background-position: 0% 50%, center; }
-}
-
-@keyframes breathingBackground {
-    0% { background-size: 400% 400%, 105%; }
-    50% { background-size: 400% 400%, 112%; }
-    100% { background-size: 400% 400%, 108%; }
+    /* 업로드하신 GIF 파일명을 매칭했습니다 */
+    background: url("giphy.gif") center center no-repeat;
+    
+    /* GIF가 정비율로 화면을 꽉 채우도록 설정 (여백이나 잘림 방지) */
+    background-size: cover;
+    
+    /* 무거운 CSS 애니메이션은 제거하고, 흐려질 때 부드러운 트랜지션만 남겨둡니다 */
+    transition: filter 0.4s ease; 
 }
 
 /* 상단 흰색 바 (네비게이션) */
@@ -187,14 +163,16 @@ body {
     padding-left: 22px;
 }
 
-/* [핵심 핵심] 삼색 바 메뉴 영역에 마우스 호버 시 흰색 바를 제외한 모든 요소에 직접 블러를 먹여 흐리게 처리 */
+/* [흐림 조절 완료] 
+   삼색 바 메뉴 활성화 시 전체 요소가 은은하고 고급스럽게 흐려지도록 3px로 완벽 튜닝! 
+*/
 body:has(.nav-menu-wrapper:hover) .main-background,
 body:has(.side-navbar:hover) .main-background,
 body:has(.nav-menu-wrapper:hover) .container,
 body:has(.side-navbar:hover) .container,
 body:has(.nav-menu-wrapper:hover) .counter-box,
 body:has(.side-navbar:hover) .counter-box {
-    filter: blur(5px);
+    filter: blur(3px); /* 👈 저번 피드백을 반영해 너무 심하지 않고 딱 보기 좋게 줄였습니다 */
 }
 
 /* 중앙 메시지 상자 */
@@ -209,7 +187,7 @@ body:has(.side-navbar:hover) .counter-box {
     transform: translateY(30px);
     margin-top: 70px;
     z-index: 1000;
-    transition: filter 0.4s ease; /* 흐려질 때 부드럽게 연출 */
+    transition: filter 0.4s ease;
 }
 
 h1 {
@@ -227,7 +205,7 @@ p {
     font-size: 18px; 
     font-weight: 400; 
     line-height: 1.4;
-    text-shadow: none; /* 요구사항에 맞춰 모든 인위적인 그림자 효과 완벽 제거 */
+    text-shadow: none; /* 불필요한 그림자 완벽 제거 */
 }
 
 #sub-title {
@@ -240,7 +218,7 @@ p {
     text-align: center;
     opacity: 0;
     z-index: 1000;
-    transition: opacity 1s, filter 0.4s ease; /* 원본 투명도 애니메이션 및 흐림 효과 동시 적용 */
+    transition: opacity 1s, filter 0.4s ease;
 }
 
 .counter-label {
@@ -303,11 +281,11 @@ p {
 
 <div class="container">
     <h1 id="typing-title"></h1>
-    <p id="sub-title">원치 않던 메일로 스트레스신가요?</p>
+    <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
 </div>
 
 <div class="counter-box">
-    <span class="counter-label">집계된 스팸 메일</span>
+    <span class="counter-label">차단된 스팸 메일</span>
     <h2 id="counter">0</h2>
 </div>
 
