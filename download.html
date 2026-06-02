@@ -23,16 +23,15 @@ body{
     height:100vh;
     overflow:hidden;
     
-    /* [수정] 애니메이션을 삭제하고 원본 이미지를 부드럽게 감싸는 은은한 단층 배경색 적용 */
+    /* 애니메이션을 삭제하고 원본 이미지를 부드럽게 감싸는 은은한 단층 배경색 적용 */
     background: linear-gradient(rgba(240, 244, 248, 0.4), rgba(240, 244, 248, 0.4)), 
                 url("프로젝트 v3.png") center center no-repeat;
     
-    /* [수정] 배경 이미지가 스크롤되거나 움직이지 않고 화면에 딱 고정되도록 설정 */
+    /* 배경 이미지가 스크롤되거나 움직이지 않고 화면에 딱 고정되도록 설정 */
     background-attachment: fixed;
     
-    /* [수정] 이미지 비율이 깨지거나 강제로 늘어나지 않고, 화면 크기에 맞춰 꽉 차도록 cover 설정 */
+    /* 이미지 비율이 깨지지 않으면서 패턴이 화면 안에 다 들어오도록 100% 100% 설정 유지 */
     background-size: 100% 100%;
-    
 }
 
 /* 상단 네비게이션 바 */
@@ -73,15 +72,36 @@ body{
     font-size: 16px;
     color: #444;
     line-height: 1.6;
-    margin-bottom: 15px;
+    margin-bottom: 25px; /* 버튼과의 간격을 위해 마진 조절 */
 }
+
+/* [추가된 디자인] 다운로드 버튼 스타일 */
+.download-btn-wrap {
+    display: flex;
+    justify-content: flex-start;
+}
+.btn-download {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: #00bcd4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.btn-download:hover {
+    background-color: #0097a7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.4);
+}
+.btn-download:active {
+    transform: translateY(0);
+}
+
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
-</head>
-<body>
-
-<header class="top-navbar">
-    <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
+    to { opacity: 1; transform: translateY
