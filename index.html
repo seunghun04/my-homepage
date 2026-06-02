@@ -16,6 +16,15 @@
     box-sizing: border-box;
 }
 
+/* 🛠️ 브라우저 기본 스크롤바를 숨겨서 스크롤바 없이 깔끔한 화면 유지 */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 body {
     font-family: 'Gothic A1', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -24,19 +33,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* 💡 기존 height: 100vh와 overflow: hidden을 제거하여 세로 스크롤을 허용합니다 */
-    min-height: 100vh;
-    overflow-y: auto;
     background-color: #fff;
     
-    /* 💡 상단바와 하단 푸터가 콘텐츠를 가리지 않도록 안쪽 여백(패딩) 확보 */
-    padding-top: 120px;
-    padding-bottom: 140px; 
+    /* 💡 페이지 전체 높이를 최소 140vh(화면 높이의 1.4배)로 설정하여 강제로 아래 공간을 늘립니다 */
+    min-height: 140vh;
+    position: relative;
 }
 
 /* 독립된 배경 이미지 레이어 (giphy.gif) */
 .main-background {
-    position: fixed; /* 💡 fixed 상태를 유지하여 스크롤을 내려도 배경은 고정됩니다 */
+    position: fixed; /* 💡 스크롤을 내려도 움직이지 않고 화면 전체에 꽉 차게 고정 */
     top: 0;
     left: 0;
     width: 100vw;
@@ -167,7 +173,7 @@ body:has(.side-navbar:hover) .counter-box {
     filter: blur(3px); 
 }
 
-/* 중앙 메시지 상자 */
+/* 🛠️ 중앙 메시지 상자 위치 긴급 패치 */
 .container {
     background: transparent;
     box-shadow: none;
@@ -177,7 +183,9 @@ body:has(.side-navbar:hover) .counter-box {
     animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
     transform: translateY(30px);
-    margin-top: 40px;
+    
+    /* 💡 접속 시 첫 화면 정중앙에 완벽히 정렬되도록 top 마진 계산 설정 */
+    margin-top: calc(50vh - 160px); 
     z-index: 1000;
     transition: filter 0.4s ease;
 }
@@ -208,10 +216,9 @@ p {
     transition: 1s;
 }
 
+/* 🛠️ 카운터 박스 여백 세부 조정 */
 .counter-box {
     margin-top: 40px;
-    /* 💡 스크롤을 내려서 푸터를 볼 수 있도록 하단 마진을 여유롭게 늘려 페이지 길이를 확보합니다 */
-    margin-bottom: 120px; 
     text-align: center;
     opacity: 0;
     z-index: 1000;
@@ -236,46 +243,47 @@ p {
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5); 
 }
 
-/* 🛠️ [신규 추가] 하단 하얀색 정보 바 (Footer) 스타일 */
+/* 🛠️ [레이아웃 대수술] 하단 하얀색 정보 바 (Footer) 스타일 */
 .bottom-footer {
-    position: absolute; /* 페이지 최하단에 절대 배치 */
+    position: absolute; /* fixed 해제 -> 스크롤 밑바닥에 완전 종속 고정 */
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95); /* 상단바와 동일한 통일감 주는 반투명 흰색 */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05); /* 위쪽으로 번지는 은은한 그림자 */
-    padding: 20px 50px;
+    height: 65px; /* 단정하고 얇은 최적의 높이 설정 */
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    padding: 0 50px;
     z-index: 2000;
     
     display: flex;
-    justify-content: space-between; /* 정보는 왼쪽, 카피라이트는 오른쪽 양끝 정렬 */
+    justify-content: space-between;
     align-items: center;
 }
 
 .footer-info {
     display: flex;
-    flex-wrap: wrap;
-    gap: 24px; /* 정보 항목 간의 간격 */
+    gap: 24px;
     color: #444;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
 }
 
 .footer-info span strong {
-    color: #111; /* 항목 이름은 좀 더 진하게 */
+    color: #111;
 }
 
 .footer-copyright {
     color: #888;
-    font-size: 13px;
+    font-size: 12px;
 }
 
-/* 반응형 분기점 (화면이 좁아질 때 푸터 레이아웃을 세로로 깔끔하게 정렬) */
+/* 모바일 반응형 처리 */
 @media (max-width: 768px) {
     .bottom-footer {
+        height: auto;
         flex-direction: column;
-        gap: 12px;
-        padding: 20px;
+        gap: 8px;
+        padding: 15px 20px;
         text-align: center;
     }
     .footer-info {
