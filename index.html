@@ -27,8 +27,19 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    background-color: #fff;
+}
 
-    /* 원본 배경 설정 보존 */
+/* [구조 개혁] 배경 이미지를 독립 레이어로 분리하여 텍스트 왜곡 없이 순수하게 흐려지도록 설정 */
+.main-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    
+    /* 원본 배경 디자인 완전 보존 */
     background:
         linear-gradient(
             -45deg,
@@ -41,12 +52,13 @@ body {
 
     background-size: 400% 400%, 105%;
     background-attachment: fixed;
-
     filter: saturate(1.05);
 
     animation:
         gradientMovement 12s ease infinite,
         breathingBackground 18s ease-in-out infinite alternate;
+        
+    transition: filter 0.4s ease; /* 호버 시 부드러운 흐림 전환 */
 }
 
 @keyframes gradientMovement {
@@ -75,7 +87,7 @@ body {
     grid-template-columns: 1fr auto 1fr; 
     align-items: center;
     padding: 0 50px;
-    z-index: 2000; /* 최상단 유지 (흐려지지 않음) */
+    z-index: 2000; /* 흐려지는 요소들보다 항상 위에 위치하여 선명하게 유지 */
 }
 
 .nav-logo {
@@ -175,28 +187,14 @@ body {
     padding-left: 22px;
 }
 
-/* [구조 변경 및 수정] z-index를 1500으로 설정하여 흰색 바(2000) 아래, 중앙 콘텐츠(1000) 위로 배치 */
-.blur-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1500; /* 이 레이어보다 뒤에 있는 배경과 글자들을 모두 흐리게 만듭니다 */
-    transition: opacity 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
-}
-
-/* 삼색 바 영역에 마우스 호버 시 블러 활성화 */
-.top-navbar:has(.nav-menu-wrapper:hover) ~ .blur-overlay,
-.top-navbar:has(.side-navbar:hover) ~ .blur-overlay {
-    opacity: 1;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+/* [핵심 핵심] 삼색 바 메뉴 영역에 마우스 호버 시 흰색 바를 제외한 모든 요소에 직접 블러를 먹여 흐리게 처리 */
+body:has(.nav-menu-wrapper:hover) .main-background,
+body:has(.side-navbar:hover) .main-background,
+body:has(.nav-menu-wrapper:hover) .container,
+body:has(.side-navbar:hover) .container,
+body:has(.nav-menu-wrapper:hover) .counter-box,
+body:has(.side-navbar:hover) .counter-box {
+    filter: blur(8px);
 }
 
 /* 중앙 메시지 상자 */
@@ -210,7 +208,8 @@ body {
     opacity: 0;
     transform: translateY(30px);
     margin-top: 70px;
-    z-index: 1000; /* 평소엔 선명하며, 메뉴 호버 시 overlay 아래에 위치해 부드럽게 흐려짐 */
+    z-index: 1000;
+    transition: filter 0.4s ease; /* 흐려질 때 부드럽게 연출 */
 }
 
 h1 {
@@ -228,8 +227,7 @@ p {
     font-size: 18px; 
     font-weight: 400; 
     line-height: 1.4;
-    /* [수정] 요청에 따라 텍스트그림자(text-shadow) 효과를 완벽하게 제거했습니다 */
-    text-shadow: none; 
+    text-shadow: none; /* 요구사항에 맞춰 모든 인위적인 그림자 효과 완벽 제거 */
 }
 
 #sub-title {
@@ -241,8 +239,8 @@ p {
     margin-top: 40px;
     text-align: center;
     opacity: 0;
-    transition: 1s;
     z-index: 1000;
+    transition: opacity 1s, filter 0.4s ease; /* 원본 투명도 애니메이션 및 흐림 효과 동시 적용 */
 }
 
 .counter-label {
@@ -280,6 +278,8 @@ p {
 
 <body>
 
+<div class="main-background"></div>
+
 <header class="top-navbar">
     <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
     
@@ -301,15 +301,13 @@ p {
     </div>
 </header>
 
-<div class="blur-overlay"></div>
-
 <div class="container">
     <h1 id="typing-title"></h1>
-    <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
+    <p id="sub-title">원치 않던 메일로 스트레스신가요?</p>
 </div>
 
 <div class="counter-box">
-    <span class="counter-label">차단된 스팸 메일</span>
+    <span class="counter-label">집계된 스팸 메일</span>
     <h2 id="counter">0</h2>
 </div>
 
