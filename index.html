@@ -1,3 +1,9 @@
+네, 유튜브 로고 버튼이 추가되고 중앙 로고가 완벽하게 정중앙에 고정되도록 보정된 전체 코드입니다.
+
+기존의 화살표 복구 기능, 푸터바 스크롤 노출, 그리고 이번에 추가된 유튜브 이동 기능까지 모두 꼬임 없이 깔끔하게 통합했습니다. 이 코드를 그대로 복사해서 index.html에 적용하시면 됩니다!
+
+📄 유튜브 로고 및 중앙 정렬이 반영된 index.html 전체 코드
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자동화 필터링 시스템 - 메인</title>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* 1. 기본 초기화 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,18 +33,43 @@ body {
     transition: filter 0.4s ease;
 }
 
-/* 3. 상단 네비게이션바 (로고 완전 정중앙) */
+/* 3. 상단 네비게이션바 (로고 완전 정중앙 보정 및 유튜브 영역 추가) */
 .top-navbar { 
     position: fixed; top: 0; left: 0; width: 100%; height: 70px; 
     background: rgba(255,255,255,0.95); z-index: 2000; 
     display: flex; justify-content: space-between; align-items: center; padding: 0 50px; 
 }
-.nav-logo { font-weight: 700; font-size: 20px; cursor: pointer; color: #222; }
+.nav-logo { font-weight: 700; font-size: 20px; cursor: pointer; color: #222; z-index: 2100; }
 
+/* 🎯 중앙 이미지 로고 (우측 메뉴 부피에 상관없이 전체 화면 기준 완벽한 50% 정중앙 정렬) */
 .nav-center-logo { 
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); 
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2050;
 }
 .nav-center-logo img { height: 55px; cursor: pointer; display: block; }
+
+/* 🎯 우측 영역 상자 (유튜브 버튼 + 햄버거 메뉴 정렬용) */
+.nav-right-area {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* 유튜브 아이콘과 햄버거 버튼 사이의 간격 */
+    height: 100%;
+    z-index: 2100;
+}
+
+/* 유튜브 버튼 스타일 */
+.youtube-btn {
+    font-size: 28px; /* 아이콘 크기 */
+    color: #555; /* 평소 아이콘 색상 */
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+}
+/* 마우스 올렸을 때 효과 */
+.youtube-btn:hover {
+    color: #ff0000; /* 유튜브 레드 브랜드 컬러 */
+    transform: scale(1.1); /* 살짝 커지는 애니메이션 */
+}
 
 .nav-menu-wrapper { display: flex; align-items: center; cursor: pointer; height: 100%; }
 .hamburger-btn { display: flex; flex-direction: column; justify-content: space-between; width: 25px; height: 18px; z-index: 3000; }
@@ -50,12 +82,12 @@ body {
 .nav-item:hover { background: rgba(0,188,212,0.08); color: #00bcd4; padding-left: 22px; }
 body:has(.nav-menu-wrapper:hover) .main-background { filter: blur(3px); }
 
-/* 4. 🎯 중앙 메인 콘텐츠 영역 (화면 정중앙에 완전 고정) */
+/* 4. 중앙 메인 콘텐츠 영역 (화면 정중앙에 완전 고정) */
 .container {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 스크롤해도 미동 없는 완벽한 한가운데 고정 */
+    transform: translate(-50%, -50%);
     width: 90%;
     max-width: 650px;
     text-align: center;
@@ -90,14 +122,14 @@ p {
 .typing-done::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 7. 🎯 우측 넘김 화살표 버튼 (중앙 우측 배치 및 클릭 영역 복구) */
+/* 7. 우측 넘김 화살표 버튼 (중앙 우측 배치 및 클릭 영역 복구) */
 .next-arrow-btn {
     position: absolute; 
-    right: -60px; top: 28%; /* 텍스트 내용 우측에 예쁘게 정렬 */
-    width: 44px; height: 44px; /* 충분한 터치 및 클릭 영역 보장 */
+    right: -60px; top: 28%; 
+    width: 44px; height: 44px; 
     background: transparent !important; border: none !important; outline: none !important;
     cursor: pointer; z-index: 1050; 
-    display: none; align-items: center; justify-content: center; /* 화살표 정렬용 flex */
+    display: none; align-items: center; justify-content: center; 
     opacity: 0; transition: opacity 0.8s;
     -webkit-tap-highlight-color: transparent;
 }
@@ -131,6 +163,8 @@ p {
     body { min-height: calc(100vh + 100px); }
     .next-arrow-btn { right: -10px; top: 25%; }
     .nav-logo { font-size: 16px; }
+    .nav-right-area { gap: 15px; } /* 모바일에서 간격 좁히기 */
+    .youtube-btn { font-size: 24px; }
 }
 </style>
 </head>
@@ -140,13 +174,20 @@ p {
 
 <header class="top-navbar">
     <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
+    
     <div class="nav-center-logo" onclick="location.href='index.html'"><img src="ui_symbol.png" alt="로고"></div>
-    <div class="nav-menu-wrapper">
-        <div class="hamburger-btn"><span></span><span></span><span></span></div>
-        <nav class="side-navbar">
-            <a class="nav-item" href="about.html">제품소개</a>
-            <a class="nav-item" href="download.html">다운로드</a>
-        </nav>
+    
+    <div class="nav-right-area">
+        <a href="https://www.youtube.com/본인채널주소" target="_blank" class="youtube-btn" title="유튜브 채널 이동">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+        <div class="nav-menu-wrapper">
+            <div class="hamburger-btn"><span></span><span></span><span></span></div>
+            <nav class="side-navbar">
+                <a class="nav-item" href="about.html">제품소개</a>
+                <a class="nav-item" href="download.html">다운로드</a>
+            </nav>
+        </div>
     </div>
 </header>
 
@@ -213,7 +254,7 @@ function startCounter() {
         if(current >= targetNum) {
             document.getElementById("counter").innerText = targetNum.toLocaleString();
             clearInterval(timer);
-            nextBtn.style.display = "flex"; /* block에서 flex로 변경하여 중앙 정렬 보정 */
+            nextBtn.style.display = "flex"; 
             setTimeout(() => { nextBtn.style.opacity = "1"; }, 50);
         }
     }, 30);
