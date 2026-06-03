@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자동화 필터링 시스템 - 메인</title>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC+Guides&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* 1. 기본 초기화 */
@@ -33,15 +34,25 @@ body {
     background: rgba(255,255,255,0.95); z-index: 2000; 
     display: flex; justify-content: space-between; align-items: center; padding: 0 50px; 
 }
-.nav-logo { font-weight: 700; font-size: 20px; cursor: pointer; color: #222; z-index: 2100; }
 
-/* 🎯 중앙 이미지 로고 (우측 메뉴 부피에 상관없이 전체 화면 기준 완벽한 50% 정중앙 정렬) */
+/* 🎯 [수정] 좌측 상단 로고의 폰트를 Playwrite 필기체로 지정하고 크기를 자연스럽게 맞췄습니다 */
+.nav-logo { 
+    font-family: "Playwrite AU VIC Guides", cursive;
+    font-weight: 400; 
+    font-size: 22px; 
+    cursor: pointer; 
+    color: #222; 
+    z-index: 2100; 
+    text-transform: lowercase; /* 소문자로 표현될 때 필기체 곡선이 가장 예쁘게 연결됩니다 */
+}
+
+/* 중앙 이미지 로고 (우측 메뉴 부피에 상관없이 전체 화면 기준 완벽한 50% 정중앙 정렬) */
 .nav-center-logo { 
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2050;
 }
 .nav-center-logo img { height: 55px; cursor: pointer; display: block; }
 
-/* 🎯 우측 영역 상자 (유튜브 버튼 + 햄버거 메뉴 정렬용) */
+/* 우측 영역 상자 (유튜브 버튼 + 햄버거 메뉴 정렬용) */
 .nav-right-area {
     display: flex;
     align-items: center;
@@ -156,8 +167,9 @@ p {
     .bottom-footer { flex-direction: column; height: auto; padding: 15px; gap: 8px; text-align: center; }
     body { min-height: calc(100vh + 100px); }
     .next-arrow-btn { right: -10px; top: 25%; }
-    .nav-logo { font-size: 16px; }
-    .nav-right-area { gap: 15px; } /* 모바일에서 간격 좁히기 */
+    /* 모바일 가독성을 위해 반응형 폰트 살짝 조정 */
+    .nav-logo { font-size: 18px; }
+    .nav-right-area { gap: 15px; } 
     .youtube-btn { font-size: 24px; }
 }
 </style>
@@ -167,7 +179,7 @@ p {
 <div class="main-background"></div>
 
 <header class="top-navbar">
-    <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
+    <div class="nav-logo" onclick="location.href='index.html'">Automation System</div>
     
     <div class="nav-center-logo" onclick="location.href='index.html'"><img src="ui_symbol.png" alt="로고"></div>
     
