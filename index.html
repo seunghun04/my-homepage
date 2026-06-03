@@ -4,466 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자동화 필터링 시스템 - 메인</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* 1. 기본 초기화 및 스크롤바 숨김 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
 
-/* 브라우저 기본 스크롤바 숨김 */
-html {
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
-}
-html::-webkit-scrollbar {
-    display: none; 
-}
-
+/* 2. 🎯 완벽한 정중앙 배치를 위한 바디 설정 (2번째 사진 위치 맞춤) */
 body {
     font-family: 'Gothic A1', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    letter-spacing: -0.5px;
-
+    height: 100vh; /* 화면 전체 높이 꽉 채움 */
     display: flex;
     flex-direction: column;
+    justify-content: center; /* 세로 기준 완벽한 정중앙 정렬 */
     align-items: center;
     background-color: #fff;
-    
-    min-height: 140vh;
-    position: relative;
+    overflow: hidden;
+    padding-top: 70px;  /* 상단 네비바 두께만큼 밀어냄 */
+    padding-bottom: 65px; /* 하단 푸터 두께만큼 밀어냄 */
 }
 
-/* 독립된 배경 이미지 레이어 */
 .main-background {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    background: url("giphy.gif") center center no-repeat;
-    background-size: cover;
-    transition: filter 0.4s ease; 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    background: url("giphy.gif") center/cover no-repeat;
+    transition: filter 0.4s ease;
 }
 
-/* 상단 흰색 바 */
-.top-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    
-    display: grid;
-    grid-template-columns: 1fr auto 1fr; 
-    align-items: center;
-    padding: 0 50px;
-    z-index: 2000;
-}
+/* 3. 상단 및 사이드 네비게이션 (코드 간소화) */
+.top-navbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(255,255,255,0.95); z-index: 2000; display: flex; justify-content: space-between; align-items: center; padding: 0 50px; }
+.nav-logo { font-weight: 700; font-size: 20px; cursor: pointer; color: #222; }
+.nav-center-logo img { height: 55px; cursor: pointer; }
+.nav-menu-wrapper { display: flex; align-items: center; cursor: pointer; height: 100%; }
+.hamburger-btn { display: flex; flex-direction: column; justify-content: space-between; width: 25px; height: 18px; z-index: 3000; }
+.hamburger-btn span { width: 100%; height: 3px; background: #222; border-radius: 2px; transition: 0.3s; }
+.nav-menu-wrapper:hover .hamburger-btn span { background-color: #00bcd4; }
+.side-navbar { position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: rgba(255,255,255,0.98); display: flex; flex-direction: column; padding: 100px 30px; gap: 20px; transition: right 0.4s; z-index: 2500; box-shadow: -5px 0 25px rgba(0,0,0,0.1); }
+.nav-menu-wrapper:hover .side-navbar, .side-navbar:hover { right: 0; }
+.nav-item { font-size: 18px; color: #444; font-weight: 600; text-decoration: none; padding: 12px; transition: 0.3s; border-radius: 8px; display: block; }
+.nav-item:hover { background: rgba(0,188,212,0.08); color: #00bcd4; padding-left: 22px; }
+body:has(.nav-menu-wrapper:hover) .main-background { filter: blur(3px); }
 
-.nav-logo {
-    font-size: 20px; 
-    color: #222;
-    font-weight: 700; 
-    cursor: pointer;
-    justify-self: start;
-}
-
-.nav-center-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    cursor: pointer;
-}
-
-.nav-center-logo img {
-    height: 55px; 
-    width: auto;  
-    object-fit: contain;
-}
-
-.nav-menu-wrapper {
-    justify-self: end;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.hamburger-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25px;
-    height: 18px;
-    z-index: 3000;
-}
-
-.hamburger-btn span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #222;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-.side-navbar {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 280px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    padding: 100px 30px 40px 30px;
-    gap: 20px;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 2500;
-}
-
-.nav-menu-wrapper:hover .side-navbar,
-.side-navbar:hover {
-    right: 0;
-}
-
-.nav-menu-wrapper:hover .hamburger-btn span {
-    background-color: #00bcd4;
-}
-
-.nav-item {
-    font-size: 18px; 
-    color: #444;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 12px 15px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
-    display: block;
-    text-align: left;
-}
-
-.nav-item:hover {
-    background-color: rgba(0, 188, 212, 0.08);
-    color: #00bcd4; 
-    padding-left: 22px;
-}
-
-/* 삼색 바 메뉴 활성화 시 블러 효과 */
-body:has(.nav-menu-wrapper:hover) .main-background,
-body:has(.side-navbar:hover) .main-background,
-body:has(.nav-menu-wrapper:hover) .container,
-body:has(.side-navbar:hover) .container,
-body:has(.nav-menu-wrapper:hover) .counter-box,
-body:has(.side-navbar:hover) .counter-box {
-    filter: blur(3px); 
-}
-
-/* 🛠️ 중앙 전체 레이아웃 틀 고정 */
+/* 4. 중앙 레이아웃 틀 */
 .container {
-    background: transparent;
-    box-shadow: none;
-    width: 90%;
-    max-width: 650px; 
-    text-align: center;
-    z-index: 1000;
-    margin-top: calc(50vh - 180px); 
-    position: relative; 
-}
-
-/* 🛠️ 글씨 높이 고정 박스 (흔들림 완벽 차단)
-   주의: 안개 그림자(text-shadow)가 잘리지 않도록 overflow: hidden 속성을 완전히 제거했습니다! */
-.slide-display-area {
     position: relative;
-    width: 100%;
-    height: 120px; /* 고정 높이 지정으로 레이아웃 덜컹거림 방지 */
+    z-index: 1000;
+    width: 90%;
+    max-width: 650px;
+    text-align: center;
 }
 
-/* 🛠️ 타이틀 전용 래퍼 (기존 디자인 및 효과 완전 유지) */
-.title-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    /* 중앙 정렬 보장 */
+/* 5. 🎯 텍스트 컨테이너 (단일 요소 슬라이드 처리) */
+#text-box {
+    min-height: 110px; /* 글씨가 바뀌어도 전체 틀이 덜컹거리지 않게 고정 */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-}
-
-/* [오른쪽에서 대기 중인 상태] */
-.title-wrapper.incoming {
-    transform: translateX(35px); 
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* [정중앙에 표시된 상태] */
-.title-wrapper.active {
+    transition: opacity 0.4s ease, transform 0.4s ease;
     opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
+    transform: translateX(0); /* 기본 중앙 위치 */
 }
 
-/* [왼쪽으로 스르륵 퇴장하는 상태] */
-.title-wrapper.outgoing {
-    transform: translateX(-35px); 
+/* [왼쪽으로 스르륵 사라지는 상태] */
+#text-box.slide-out {
     opacity: 0;
-    visibility: hidden;
+    transform: translateX(-50px);
 }
 
-/* 최초 등장 페이드인 트랙 */
-#first-slide {
-    animation: fadeInUp 1s ease-out forwards;
+/* [오른쪽에서 대기하는 상태] */
+#text-box.slide-prep {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: none; /* 애니메이션 없이 우측으로 몰래 순간이동 시킴 */
 }
 
-/* ✨ 메인 타이틀 안개 효과 유지 */
+/* 6. 글씨 및 섀도우 효과 */
 h1 {
-    color: #ffffff; 
-    margin-bottom: 16px;
-    font-size: 34px; 
-    font-weight: 700; 
-    line-height: 1.3;
-    display: inline-block;
-    
-    text-shadow: 
-        0 0 15px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(0, 0, 0, 0.8),
-        0 0 70px rgba(0, 0, 0, 0.7),
-        0 0 100px rgba(0, 0, 0, 0.6);
+    color: #fff; font-size: 34px; font-weight: 700; margin-bottom: 16px;
+    text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.8), 0 0 70px rgba(0,0,0,0.7);
 }
-
-/* ✨ 서브 타이틀 안개 효과 유지 */
 p {
-    color: #ffffff; 
-    margin-bottom: 0; 
-    font-size: 18px; 
-    font-weight: 400; 
-    line-height: 1.4;
-    
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.9),
-        0 0 20px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(0, 0, 0, 0.6);
+    color: #fff; font-size: 18px; margin-bottom: 0;
+    text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
+    opacity: 0; transition: opacity 1s; /* 첫 로딩용 페이드인 */
 }
 
-#sub-title {
-    opacity: 0;
-    transition: 1s;
-}
+/* 타이핑 커서 깜빡임 */
+#main-text::after { content: "|"; animation: blink 0.8s infinite; margin-left: 3px; font-weight: 400; text-shadow: none; }
+.typing-done::after { display: none; } /* 타이핑 끝나면 커서 삭제 */
+@keyframes blink { 50% { opacity: 0; } }
 
-/* 🛠️ 우측 화살표 (클릭 시 나타나는 사각형 테두리 버그 해결) */
+/* 7. 🎯 우측 화살표 (경계선 테두리 100% 강제 삭제) */
 .next-arrow-btn {
-    position: absolute;
-    right: -60px; 
-    top: 50%; 
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    outline: none; /* 🔥 핵심: 클릭 시 하얀색 사각형 테두리 차단 */
-    -webkit-tap-highlight-color: transparent; /* 모바일 터치 깜빡임 차단 */
-    cursor: pointer;
-    z-index: 1050;
-    padding: 15px;
-    display: none; 
-    opacity: 0;
-    transition: opacity 0.8s ease; 
+    position: absolute; right: -50px; top: 30px;
+    background: transparent !important; border: none !important; outline: none !important; box-shadow: none !important;
+    cursor: pointer; z-index: 1050; padding: 15px; opacity: 0; display: none; transition: opacity 0.8s;
+    -webkit-tap-highlight-color: transparent; /* 모바일 클릭 테두리 방지 */
 }
+/* 클릭/포커스 시 나오는 테두리 완전 멸종 */
+.next-arrow-btn:focus, .next-arrow-btn:active { outline: none !important; border: none !important; }
 
 .next-arrow-btn::after {
-    content: '';
-    display: block;
-    width: 16px;
-    height: 16px;
-    border-top: 3px solid rgba(255, 255, 255, 0.4);   
-    border-right: 3px solid rgba(255, 255, 255, 0.4);  
-    transform: rotate(45deg); 
-    transition: border-color 0.3s, transform 0.2s;
+    content: ''; display: block; width: 16px; height: 16px;
+    border-top: 3px solid rgba(255,255,255,0.4); border-right: 3px solid rgba(255,255,255,0.4);
+    transform: rotate(45deg); transition: 0.3s;
 }
+.next-arrow-btn:hover::after { border-color: rgba(255,255,255,0.9); transform: rotate(45deg) scale(1.15); }
 
-/* 호버 시 꺾쇠 자체가 커지도록 처리 */
-.next-arrow-btn:hover::after {
-    border-top-color: rgba(255, 255, 255, 0.9); 
-    border-right-color: rgba(255, 255, 255, 0.9);
-    transform: rotate(45deg) scale(1.15);
-}
+/* 8. 카운터 및 푸터 */
+.counter-box { margin-top: 40px; opacity: 0; transition: opacity 1s; }
+.counter-label { display: block; color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 10px; text-shadow: 0 0 8px rgba(0,0,0,0.9); }
+#counter { font-size: 48px; font-weight: 700; color: #00e5ff; text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7); }
 
-/* 버튼 포커스 상태에서도 아웃라인 절대 안생기게 강제 고정 */
-.next-arrow-btn:focus {
-    outline: none;
-}
-
-/* 🛠️ 카운터 박스 */
-.counter-box {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin-top: 40px; 
-    opacity: 0;
-    transition: opacity 1s;
-    width: 100%;
-}
-
-.counter-label {
-    display: block;
-    color: #ffffff; 
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 14px;
-    
-    text-shadow: 
-        0 0 8px rgba(0, 0, 0, 0.9),
-        0 0 20px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(0, 0, 0, 0.6);
-}
-
-#counter {
-    font-size: 48px;
-    font-weight: 700;
-    color: #00e5ff; 
-    
-    text-shadow: 
-        0 0 10px rgba(0, 0, 0, 0.9),
-        0 0 25px rgba(0, 0, 0, 0.8),
-        0 0 45px rgba(0, 0, 0, 0.7),
-        0 0 65px rgba(0, 0, 0, 0.5); 
-}
-
-.bottom-footer {
-    position: absolute; 
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 65px; 
-    background: rgba(255, 255, 255, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
-    padding: 0 50px;
-    z-index: 2000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-info {
-    display: flex;
-    gap: 24px;
-    color: #444;
-    font-size: 13px;
-    font-weight: 400;
-}
-
-.footer-info span strong {
-    color: #111;
-}
-
-.footer-copyright {
-    color: #888;
-    font-size: 12px;
-}
-
+.bottom-footer { position: fixed; bottom: 0; width: 100%; height: 65px; background: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; align-items: center; padding: 0 50px; z-index: 2000; font-size: 13px; color: #444; }
+.footer-info { display: flex; gap: 24px; }
+.footer-info strong { color: #111; }
 @media (max-width: 768px) {
-    .bottom-footer {
-        height: auto;
-        flex-direction: column;
-        gap: 8px;
-        padding: 15px 20px;
-        text-align: center;
-    }
-    .footer-info {
-        justify-content: center;
-        gap: 12px;
-    }
-    .next-arrow-btn {
-        right: -10px; 
-    }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-#typing-title::after {
-    content: "|";
-    animation: blink 0.8s infinite;
-    font-weight: 400;
-    margin-left: 3px;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-}
-
-@keyframes blink {
-    50% { opacity: 0; }
+    .bottom-footer { flex-direction: column; height: auto; padding: 15px; gap: 8px; text-align: center; }
+    .next-arrow-btn { right: -10px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="main-background"></div>
 
 <header class="top-navbar">
     <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
-    
-    <div class="nav-center-logo" onclick="location.href='index.html'">
-        <img src="ui_symbol.png" alt="대학 로고">
-    </div>
-    
+    <div class="nav-center-logo" onclick="location.href='index.html'"><img src="ui_symbol.png" alt="로고"></div>
     <div class="nav-menu-wrapper">
-        <div class="hamburger-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
+        <div class="hamburger-btn"><span></span><span></span><span></span></div>
         <nav class="side-navbar">
-            <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
-            <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
+            <a class="nav-item" href="about.html">제품소개</a>
+            <a class="nav-item" href="download.html">다운로드</a>
         </nav>
     </div>
 </header>
 
 <div class="container">
-    
-    <div class="slide-display-area">
-        
-        <div class="title-wrapper active" id="first-slide">
-            <h1 id="typing-title"></h1>
-            <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
-        </div>
-
-        <div class="title-wrapper incoming">
-            <h1>안전한 업무 파트너</h1>
-            <p>인공지능 실시간 분석으로 피싱 메일을 원천 차단합니다.</p>
-        </div>
-
-        <div class="title-wrapper incoming">
-            <h1>스마트한 메일 분석기</h1>
-            <p>강력한 필터링 엔진이 사용자의 소중한 정보를 보호합니다.</p>
-        </div>
-
+    <div id="text-box">
+        <h1 id="main-text"></h1>
+        <p id="sub-text">원치 않던 메일로 고통받으셨나요?</p>
     </div>
 
     <button class="next-arrow-btn" id="nextBtn" onclick="nextSlide()"></button>
@@ -480,91 +162,89 @@ p {
         <span><strong>전화번호:</strong> 010-5609-3193</span>
         <span><strong>주소지:</strong> 강원특별자치도 춘천시 동산면 영서로 1290-31</span>
     </div>
-    <div class="footer-copyright">
-        &copy; 2026 자동화 필터링 시스템. All Rights Reserved.
-    </div>
+    <div style="color:#888;">&copy; 2026 자동화 필터링 시스템. All Rights Reserved.</div>
 </footer>
 
 <script>
-const text = "스팸 필터링 프로젝트";
-const target = document.getElementById("typing-title");
-const subTitle = document.getElementById("sub-title");
-const counterBox = document.querySelector(".counter-box");
-const counter = document.getElementById("counter");
+// 💡 슬라이드 데이터를 배열 하나로 묶어 코드를 획기적으로 줄였습니다.
+const slideData = [
+    { title: "스팸 필터링 프로젝트", desc: "원치 않던 메일로 고통받으셨나요?" },
+    { title: "안전한 업무 파트너", desc: "인공지능 실시간 분석으로 피싱 메일을 원천 차단합니다." },
+    { title: "스마트한 메일 분석기", desc: "강력한 필터링 엔진이 사용자의 소중한 정보를 보호합니다." }
+];
+
+let currentSlide = 0;
+let isSliding = false; // 광클릭 방지 잠금장치
+
+const mainText = document.getElementById("main-text");
+const subText = document.getElementById("sub-text");
+const textBox = document.getElementById("text-box");
 const nextBtn = document.getElementById("nextBtn");
 
-let index = 0;
-let currentSlide = 0;
-const slides = document.querySelectorAll(".title-wrapper");
-let isSliding = false; 
-
+// 1. 첫 화면 타이핑 효과
+let typeIdx = 0;
 function typing() {
-    if(index < text.length){
-        target.innerHTML += text.charAt(index);
-        index++;
+    if(typeIdx < slideData[0].title.length) {
+        mainText.innerHTML += slideData[0].title.charAt(typeIdx);
+        typeIdx++;
         setTimeout(typing, 120);
-    }
-    else{
-        subTitle.style.opacity = "1";
-        setTimeout(() => {
-            counterBox.style.opacity = "1";
-            startCounter();
-        }, 800);
+    } else {
+        subText.style.opacity = "1";
+        setTimeout(startCounter, 800);
     }
 }
-
 window.onload = typing;
 
-function startCounter(){
+// 2. 카운터 애니메이션
+function startCounter() {
+    document.querySelector('.counter-box').style.opacity = "1";
     let current = 0;
     let targetNum = 152847;
-
+    
     let timer = setInterval(() => {
         current += Math.ceil((targetNum - current) / 15);
-        counter.innerText = current.toLocaleString();
-
-        if(current >= targetNum){
-            counter.innerText = targetNum.toLocaleString();
+        document.getElementById("counter").innerText = current.toLocaleString();
+        
+        if(current >= targetNum) {
+            document.getElementById("counter").innerText = targetNum.toLocaleString();
             clearInterval(timer);
-            
             nextBtn.style.display = "block";
             setTimeout(() => { nextBtn.style.opacity = "1"; }, 50);
         }
     }, 30);
 }
 
-// 🛠️ [겹침 원천 차단형 순차 애니메이션]
+// 3. 🎯 한 방향(왼쪽)으로만 스르륵 이동하는 완벽한 텍스트 교체 함수
 function nextSlide() {
-    if (isSliding) return; 
+    if (isSliding) return;
     isSliding = true;
 
-    const prevSlide = slides[currentSlide];
+    // A. 현재 텍스트를 왼쪽으로 이동시키며 투명하게 숨김
+    textBox.classList.add("slide-out");
 
-    // 1. 현재 슬라이드를 왼쪽으로 스르륵 밀어내며 사라지게 함 (fadeOut)
-    prevSlide.classList.remove("active");
-    prevSlide.classList.add("outgoing");
-
-    // 2. 완전히 사라질 때까지 400ms 대기 (이 과정 때문에 글씨가 겹칠 일이 100% 없음)
+    // B. 글씨가 완전히 사라진 후(0.4초 뒤) 텍스트 갈아끼우기
     setTimeout(() => {
+        // 다음 문구로 데이터 교체 (하나의 태그 내용물만 바꿈 = 겹칠 일이 100% 없음)
+        currentSlide = (currentSlide + 1) % slideData.length;
+        mainText.innerHTML = slideData[currentSlide].title;
+        subText.innerHTML = slideData[currentSlide].desc;
         
-        // 다 사라진 이전 슬라이드는 나중을 위해 오른쪽 대기석으로 몰래 옮겨둠
-        prevSlide.classList.remove("outgoing");
-        prevSlide.classList.add("incoming");
+        // 타이핑 커서 제거 및 서브텍스트 강제 노출
+        mainText.classList.add("typing-done");
+        subText.style.opacity = "1"; 
 
-        // 3. 다음 슬라이드로 인덱스 변경
-        currentSlide = (currentSlide + 1) % slides.length;
-        const nextSlideEl = slides[currentSlide];
+        // C. 안보이는 상태로 우측 대기열(오른쪽)로 몰래 순간이동 
+        textBox.classList.remove("slide-out");
+        textBox.classList.add("slide-prep");
+        
+        void textBox.offsetWidth; // 브라우저에게 "위치 바꿨어!" 하고 강제 인지시킴
 
-        // 4. 새로운 슬라이드를 오른쪽에서 중앙으로 스르륵 나타나게 함 (fadeIn)
-        nextSlideEl.classList.remove("incoming");
-        nextSlideEl.classList.add("active");
+        // D. 우측 대기열에서 중앙으로 스르륵 다시 등장
+        textBox.classList.remove("slide-prep");
 
-        // 5. 나타나는 애니메이션(400ms)이 끝나면 클릭 잠금 해제
-        setTimeout(() => {
-            isSliding = false; 
-        }, 400);
-
-    }, 400); // 이전 글씨가 사라지는 CSS 애니메이션 시간과 똑같이 맞춘 대기 시간
+        // 애니메이션이 끝나면 잠금 해제
+        setTimeout(() => { isSliding = false; }, 400);
+    }, 400); 
 }
 </script>
 </body>
