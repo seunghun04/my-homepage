@@ -1,3 +1,4 @@
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 *{ margin:0; padding:0; box-sizing:border-box; }
@@ -23,14 +26,11 @@ body{
     height:100vh;
     overflow:hidden;
     
-    /* [수정] 애니메이션용 움직이는 그라데이션 대신, 원본 이미지를 부드럽게 감싸는 은은한 단층 배경색 적용 */
+    /* 은은한 단층 배경색 적용 */
     background: linear-gradient(rgba(240, 244, 248, 0.4), rgba(240, 244, 248, 0.4)), 
                 url("프로젝트 v3.png") center center no-repeat;
     
-    /* [수정] 배경 이미지가 스크롤되거나 움직이지 않고 화면에 딱 고정되도록 설정 */
     background-attachment: fixed;
-    
-    /* [수정] 이미지 비율이 깨지거나 강제로 늘어나지 않고, 화면 크기에 맞춰 꽉 차도록 cover 설정 */
     background-size: 100% 100%;
 }
 
@@ -42,9 +42,20 @@ body{
 .nav-logo { font-size: 20px; color: #222; font-weight: 700; cursor: pointer; justify-self: start; }
 .nav-center-logo { display: flex; justify-content: center; align-items: center; height: 100%; cursor: pointer; }
 .nav-center-logo img { height: 55px; width: auto; object-fit: contain; }
-.nav-menu { display: flex; gap: 40px; justify-self: end; }
-.nav-item { font-size: 16px; color: #555; font-weight: 600; text-decoration: none; transition: color 0.3s; cursor: pointer; }
-.nav-item:hover { color: #00bcd4; }
+
+/* 오른쪽 메뉴 영역 (index.html 스타일과 매칭) */
+.nav-menu { display: flex; justify-self: end; align-items: center; }
+
+/* 햄버거 버튼 스타일 */
+.hamburger-btn {
+    font-size: 22px;
+    color: #222;
+    cursor: pointer;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+}
+.hamburger-btn:hover { color: #00bcd4; }
 
 /* 소개 페이지 전용 콘텐츠 박스 */
 .about-container {
@@ -56,9 +67,9 @@ body{
     -webkit-backdrop-filter: blur(0px);
     width: 90%;
     max-width: 600px;
-    text-align: left;
+    text-align: center; /* 두 번째 이미지의 중앙 정렬 톤에 맞춰 정렬 */
     margin-top: 40px;
-    animation: fadeInUp 0.8s ease-out forwards; /* 텍스트가 밑에서 위로 부드럽게 올라오는 최초 등장 효과만 유지 */
+    animation: fadeInUp 0.8s ease-out forwards; 
 }
 .about-title {
     font-size: 28px;
@@ -67,6 +78,7 @@ body{
     margin-bottom: 20px;
     border-bottom: 2px solid #00bcd4;
     padding-bottom: 10px;
+    display: inline-block; /* 중앙 정렬 상태에서 밑줄 너비를 예쁘게 잡기 위함 */
 }
 .about-text {
     font-size: 16px;
@@ -85,9 +97,11 @@ body{
 <header class="top-navbar">
     <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
     <div class="nav-center-logo" onclick="location.href='index.html'"><img src="ui_symbol.png" alt="대학 로고"></div>
+    
     <nav class="nav-menu">
-        <a class="nav-item" onclick="location.href='about.html'" style="color: #00bcd4;">제품소개</a>
-        <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </nav>
 </header>
 
@@ -96,6 +110,13 @@ body{
     <p class="about-text"><strong>자동화 필터링 시스템</strong>은 딥러닝, flutter 기반의 개인개발 인공지능을 활용하여 악성 스팸 메일과 피싱 메일을 실시간으로 차단하는 혁신적인 솔루션입니다.</p>
     <p class="about-text">사용자의 메일 수신 패턴을 분석하고 정교한 필터링 엔진을 거쳐, 업무 효율성을 극대화하고 소중한 개인정보를 안전하게 보호합니다.</p>
 </div>
+
+<script>
+// 추후 햄버거 메뉴 클릭 시 슬라이드 메뉴나 모달을 띄우고 싶다면 이 함수 내부에 코드를 작성하면 됩니다.
+function toggleMenu() {
+    alert("메뉴 기능이 준비 중입니다."); 
+}
+</script>
 
 </body>
 </html>
