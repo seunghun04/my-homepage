@@ -14,29 +14,25 @@
 /* 1. 기본 초기화 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* 브라우저 기본 스크롤바 숨김 */
+/* 스크롤 애니메이션을 느껴야 하므로 이번엔 스크롤바를 살려둡니다 */
 html {
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
+    scroll-behavior: smooth;
+    background-color: #000;
 }
-html::-webkit-scrollbar {
-    display: none; 
-}
+/* 웹킷 브라우저 스크롤바 스타일링 (깔끔하게 최소화) */
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: #000; }
+html::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
 body {
     font-family: 'Gothic A1', sans-serif;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #000; /* GIF의 어두운 톤과 자연스럽게 매칭되도록 기본 배경을 검은색으로 설정 */
-    min-height: 100vh;
-    overflow: hidden;
-    position: relative;
+    color: #fff;
+    min-height: 200vh; /* 스크롤을 길게 내려서 감상할 수 있도록 공간 확보 */
 }
 
-/* 🎬 [변경 완료] 독립된 배경 이미지 레이어에 about.gif 적용 */
+/* 固定 고정 이미지 배경 레이어 */
 .main-background {
     position: fixed; 
     top: 0;
@@ -44,15 +40,14 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: 1;
-    /* GIF 분위기에 맞춰 살짝 투명한 검은색 틴트를 오버레이하여 글씨 가독성을 높입니다 */
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
                 url("about.gif") center center no-repeat;
-    background-size: cover; /* 화면 비율이 바뀌어도 여백 없이 꽉 차게 고정 */
+    background-size: cover;
     background-attachment: fixed;
     transition: filter 0.4s ease; 
 }
 
-/* 2. 상단 흰색 바 (다른 페이지들과 레이아웃 완전 통일) */
+/* 2. 상단 흰색 바 (레이아웃 고정) */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -68,178 +63,102 @@ body {
     z-index: 2000;
 }
 
-.nav-logo {
-    font-size: 20px; 
-    color: #222;
-    font-weight: 700; 
-    cursor: pointer;
-    z-index: 2100;
-}
-
-/* 중앙 이미지 로고 (전체 화면 기준 완벽한 50% 정중앙 고정) */
+.nav-logo { font-size: 20px; color: #222; font-weight: 700; cursor: pointer; z-index: 2100; }
 .nav-center-logo { 
-    position: absolute; 
-    left: 50%; 
-    top: 50%; 
-    transform: translate(-50%, -50%); 
-    z-index: 2050;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    cursor: pointer;
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2050;
+    display: flex; justify-content: center; align-items: center; height: 100%; cursor: pointer;
 }
-.nav-center-logo img {
-    height: 55px; 
-    width: auto;  
-    object-fit: contain;
-    display: block;
-}
-
-/* 우측 통합 영역 상자 (유튜브 버튼 + 햄버거 메뉴) */
-.nav-right-area {
-    display: flex;
-    align-items: center;
-    gap: 25px; 
-    height: 100%;
-    z-index: 2100;
-}
-
-/* 유튜브 버튼 디자인 및 효과 */
-.youtube-btn {
-    font-size: 28px; 
-    color: #555; 
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: color 0.3s, transform 0.3s;
-}
-.youtube-btn:hover {
-    color: #ff0000; 
-    transform: scale(1.1); 
-}
-
-/* 햄버거 메뉴 래퍼 설정 */
-.nav-menu-wrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.hamburger-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25px;
-    height: 18px;
-    z-index: 3000;
-}
-
-.hamburger-btn span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #222;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-/* 슬라이딩 사이드 바 메뉴판 */
+.nav-center-logo img { height: 55px; width: auto; object-fit: contain; display: block; }
+.nav-right-area { display: flex; align-items: center; gap: 25px; height: 100%; z-index: 2100; }
+.youtube-btn { font-size: 28px; color: #555; display: flex; align-items: center; text-decoration: none; transition: color 0.3s, transform 0.3s; }
+.youtube-btn:hover { color: #ff0000; transform: scale(1.1); }
+.nav-menu-wrapper { height: 100%; display: flex; align-items: center; position: relative; cursor: pointer; }
+.hamburger-btn { display: flex; flex-direction: column; justify-content: space-between; width: 25px; height: 18px; z-index: 3000; }
+.hamburger-btn span { display: block; width: 100%; height: 3px; background-color: #222; border-radius: 2px; transition: all 0.3s ease; }
 .side-navbar {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 280px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+    position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: rgba(255, 255, 255, 0.98);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; padding: 100px 30px 40px 30px; gap: 20px;
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2500;
+}
+.nav-menu-wrapper:hover .side-navbar, .side-navbar:hover { right: 0; }
+.nav-menu-wrapper:hover .hamburger-btn span { background-color: #00bcd4; }
+.nav-item { font-size: 18px; color: #444; font-weight: 600; text-decoration: none; padding: 12px 15px; border-radius: 8px; transition: all 0.3s; cursor: pointer; display: block; text-align: left; }
+.nav-item:hover { background-color: rgba(0, 188, 212, 0.08); color: #00bcd4; padding-left: 22px; }
+
+body:has(.nav-menu-wrapper:hover) .main-background,
+body:has(.side-navbar:hover) .main-background { filter: blur(3px); }
+
+/* 3. 🌊 스크롤 스토리텔링 컨텐츠 레이아웃 */
+.story-wrapper {
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 180px 20px 100px 20px; /* 첫 카드 등장 전 여백 설정 */
     display: flex;
     flex-direction: column;
-    padding: 100px 30px 40px 30px;
-    gap: 20px;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 2500;
+    gap: 150px; /* 카드와 카드 사이의 세로 간격 */
 }
 
-.nav-menu-wrapper:hover .side-navbar,
-.side-navbar:hover {
-    right: 0;
+/* 하나의 섹션 행 */
+.story-row {
+    display: flex;
+    width: 100%;
 }
 
-.nav-menu-wrapper:hover .hamburger-btn span {
-    background-color: #00bcd4;
+/* 좌측 정렬 행 */
+.story-row.align-left { justify-content: flex-start; }
+/* 우측 정렬 행 */
+.story-row.align-right { justify-content: flex-end; }
+
+/* 📦 글씨가 담기는 세련된 카드 */
+.about-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    
+    /* 🌟 핵심 애니메이션 초기상태 설정 (기본 숨김 & 아래로 내려가 있음) */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.nav-item {
-    font-size: 18px; 
-    color: #444;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 12px 15px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
-    display: block;
-    text-align: left;
-}
-
-.nav-item:hover {
-    background-color: rgba(0, 188, 212, 0.08);
-    color: #00bcd4; 
-    padding-left: 22px;
-}
-
-/* 메뉴 활성화 시 배경 및 컨텐츠 블러 처리 기믹 */
-body:has(.nav-menu-wrapper:hover) .main-background,
-body:has(.side-navbar:hover) .main-background,
-body:has(.nav-menu-wrapper:hover) .about-container,
-body:has(.side-navbar:hover) .about-container {
-    filter: blur(3px); 
-}
-
-/* 3. 소개 페이지 전용 콘텐츠 박스 */
-.about-container {
-    background: transparent;
-    box-shadow: none;
-    width: 90%;
-    max-width: 650px;
-    text-align: center;
-    z-index: 1000;
-    margin-top: calc(50vh - 120px); 
-    animation: fadeInUp 0.8s ease-out forwards;
-    transition: filter 0.4s ease;
+/* 🎬 스크롤을 내려 화면에 포착되면 클래스가 붙으며 스르륵 나타남 */
+.about-card.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .about-title {
-    font-size: 34px;
+    font-size: 26px;
     font-weight: 700;
-    color: #ffffff; /* 어두운 GIF 배경 위에서 잘 보이도록 제목 색상을 흰색으로 변경 */
-    margin-bottom: 24px;
-    border-bottom: 2px solid #00bcd4;
-    padding-bottom: 10px;
+    color: #00bcd4;
+    margin-bottom: 20px;
     display: inline-block;
 }
 
 .about-text {
-    font-size: 18px;
-    color: #e0e0e0; /* 어두운 GIF 배경 위에서 잘 보이도록 본문 색상을 밝은 연회색으로 변경 */
-    line-height: 1.6;
-    margin-bottom: 15px;
+    font-size: 17px;
+    color: #e0e0e0;
+    line-height: 1.7;
     font-weight: 400;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* 무빙 배경 위에서 텍스트가 묻히지 않게 미세한 그림자 추가 */
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+/* 모바일 대응 */
 @media (max-width: 768px) {
     .nav-logo { font-size: 16px; }
     .nav-right-area { gap: 15px; }
     .youtube-btn { font-size: 24px; }
+    .story-wrapper { padding-top: 120px; gap: 80px; }
+    .story-row.align-left, .story-row.align-right { justify-content: center; }
+    .about-card { padding: 30px; }
 }
 </style>
 </head>
@@ -250,23 +169,17 @@ body:has(.side-navbar:hover) .about-container {
 
 <header class="top-navbar">
     <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
-    
     <div class="nav-center-logo" onclick="location.href='index.html'">
         <img src="ui_symbol.png" alt="대학 로고">
     </div>
-    
     <div class="nav-right-area">
         <a href="https://www.youtube.com/@tmdgns1130" target="_blank" class="youtube-btn" title="유튜브 채널 이동">
             <i class="fa-brands fa-youtube"></i>
         </a>
-        
         <div class="nav-menu-wrapper">
             <div class="hamburger-btn">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
-            
             <nav class="side-navbar">
                 <a class="nav-item" onclick="location.href='about.html'" style="color: #00bcd4; background-color: rgba(0, 188, 212, 0.05);">제품소개</a>
                 <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
@@ -275,11 +188,66 @@ body:has(.side-navbar:hover) .about-container {
     </div>
 </header>
 
-<div class="about-container">
-    <h2 class="about-title">제품 소개</h2>
-    <p class="about-text"><strong>자동화 필터링 시스템</strong>은 딥러닝, flutter 기반의 개인개발 인공지능을 활용하여 악성 스팸 메일과 피싱 메일을 실시간으로 차단하는 혁신적인 솔루션입니다.</p>
-    <p class="about-text">사용자의 메일 수신 패턴을 분석하고 정교한 필터링 엔진을 거쳐, 업무 효율성을 극대화하고 소중한 개인정보를 안전하게 보호합니다.</p>
+<div class="story-wrapper">
+
+    <div class="story-row align-left">
+        <div class="about-card">
+            <h2 class="about-title">스팸 필터링 프로젝트</h2>
+            <p class="about-text">
+                원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 고통받으셨나요? 
+                저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 스마트하게 차단합니다.
+            </p>
+        </div>
+    </div>
+
+    <div class="story-row align-right">
+        <div class="about-card">
+            <h2 class="about-title">안전한 업무 파트너</h2>
+            <p class="about-text">
+                딥러닝 모델과 고도화된 Flutter 기반의 개인 개발 인공지능 엔진이 실시간으로 수신 메일을 정밀 분석합니다. 
+                스팸메일의 패턴을 학습하여 변형된 사기 메일까지 원천 차단해 드립니다.
+            </p>
+        </div>
+    </div>
+
+    <div class="story-row align-left">
+        <div class="about-card">
+            <h2 class="about-title">완벽한 데이터 보호</h2>
+            <p class="about-text">
+                사용자의 메일 수신 패턴을 철저하게 맞춤형으로 분석하고 분석 과정에서 개인정보 유출을 방지합니다. 
+                가장 쾌적하고 안전한 비즈니스 및 개인 메일 환경을 경험해 보세요.
+            </p>
+        </div>
+    </div>
+
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.about-card');
+    
+    // 화면에 20% 이상 등장했을 때 이벤트를 트리거하는 감지기(Observer) 설정
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2 
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 화면에 나타나면 'visible' 클래스를 추가하여 위로 스르륵 띄움
+                entry.target.classList.add('visible');
+                // 한 번 나타난 카드는 다시 사라지지 않도록 감지 해제(선택 사항)
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // 모든 카드에 감지 시스템 장착
+    cards.forEach(card => observer.observe(card));
+});
+</script>
 
 </body>
 </html>
