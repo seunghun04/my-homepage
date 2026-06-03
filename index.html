@@ -6,18 +6,17 @@
 <title>자동화 필터링 시스템 - 메인</title>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* 1. 기본 초기화 및 스크롤바 설정 */
+/* 1. 기본 초기화 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { background-color: #fff; }
 
-/* 2. 전체 페이지 레이아웃 (푸터 스크롤을 위한 가상 높이 설정) */
+/* 2. 전체 페이지 레이아웃 (푸터 스크롤 공간 확보) */
 body {
     font-family: 'Gothic A1', sans-serif;
-    /* 화면 높이(100vh)에 푸터 높이(65px)를 더해 푸터만을 위한 스크롤 영역 생성 */
-    min-height: calc(100vh + 65px); 
+    min-height: calc(100vh + 65px); /* 화면 높이에 푸터 두께를 더해 스크롤 생성 */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 푸터를 항상 문서 최하단에 배치 */
+    justify-content: flex-end; /* 푸터를 항상 문서 맨 바닥에 배치 */
     overflow-x: hidden;
 }
 
@@ -27,7 +26,7 @@ body {
     transition: filter 0.4s ease;
 }
 
-/* 3. 상단 네비게이션바 (완전 중앙 정렬) */
+/* 3. 상단 네비게이션바 (로고 완전 정중앙) */
 .top-navbar { 
     position: fixed; top: 0; left: 0; width: 100%; height: 70px; 
     background: rgba(255,255,255,0.95); z-index: 2000; 
@@ -51,25 +50,16 @@ body {
 .nav-item:hover { background: rgba(0,188,212,0.08); color: #00bcd4; padding-left: 22px; }
 body:has(.nav-menu-wrapper:hover) .main-background { filter: blur(3px); }
 
-/* 4. 🎯 중앙 메인 영역 (화면 중앙에 절대 고정) */
-.main-content-area {
+/* 4. 🎯 중앙 메인 콘텐츠 영역 (화면 정중앙에 완전 고정) */
+.container {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 화면 한가운데 정렬 */
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    pointer-events: none; /* 뒤쪽 스크롤 방해하지 않도록 설정 */
-}
-
-.container {
+    transform: translate(-50%, -50%); /* 스크롤해도 미동 없는 완벽한 한가운데 고정 */
     width: 90%;
     max-width: 650px;
     text-align: center;
-    pointer-events: auto; /* 컨테이너 내부 버튼 등은 다시 클릭 가능하게 설정 */
+    z-index: 1000;
 }
 
 /* 5. 텍스트 컨테이너 및 애니메이션 */
@@ -100,27 +90,30 @@ p {
 .typing-done::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 7. 우측 화살표 */
+/* 7. 🎯 우측 넘김 화살표 버튼 (중앙 우측 배치 및 클릭 영역 복구) */
 .next-arrow-btn {
-    position: absolute; right: -50px; top: 30px;
-    background: transparent !important; border: none !important; outline: none !important; box-shadow: none !important;
-    cursor: pointer; z-index: 1050; padding: 15px; opacity: 0; display: none; transition: opacity 0.8s;
+    position: absolute; 
+    right: -60px; top: 28%; /* 텍스트 내용 우측에 예쁘게 정렬 */
+    width: 44px; height: 44px; /* 충분한 터치 및 클릭 영역 보장 */
+    background: transparent !important; border: none !important; outline: none !important;
+    cursor: pointer; z-index: 1050; 
+    display: none; align-items: center; justify-content: center; /* 화살표 정렬용 flex */
+    opacity: 0; transition: opacity 0.8s;
     -webkit-tap-highlight-color: transparent;
 }
-.next-arrow-btn:focus, .next-arrow-btn:active { outline: none !important; border: none !important; }
 .next-arrow-btn::after {
     content: ''; display: block; width: 16px; height: 16px;
-    border-top: 3px solid rgba(255,255,255,0.4); border-right: 3px solid rgba(255,255,255,0.4);
+    border-top: 3px solid rgba(255,255,255,0.5); border-right: 3px solid rgba(255,255,255,0.5);
     transform: rotate(45deg); transition: 0.3s;
 }
-.next-arrow-btn:hover::after { border-color: rgba(255,255,255,0.9); transform: rotate(45deg) scale(1.15); }
+.next-arrow-btn:hover::after { border-color: rgba(255,255,255,1); transform: rotate(45deg) scale(1.15); }
 
 /* 8. 카운터 영역 */
 .counter-box { margin-top: 40px; opacity: 0; transition: opacity 1s; }
 .counter-label { display: block; color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 10px; text-shadow: 0 0 8px rgba(0,0,0,0.9); }
 #counter { font-size: 48px; font-weight: 700; color: #00e5ff; text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7); }
 
-/* 9. 🎯 하단 푸터 (스크롤을 내릴 때만 바닥에서 출현) */
+/* 9. 하단 푸터 (스크롤을 완전히 내렸을 때만 바닥에서 등장) */
 .bottom-footer { 
     position: relative;
     width: 100%; height: 65px; 
@@ -135,8 +128,8 @@ p {
 
 @media (max-width: 768px) {
     .bottom-footer { flex-direction: column; height: auto; padding: 15px; gap: 8px; text-align: center; }
-    body { min-height: calc(100vh + 100px); } /* 모바일은 푸터가 늘어나므로 가상 공간 추가 확보 */
-    .next-arrow-btn { right: -10px; }
+    body { min-height: calc(100vh + 100px); }
+    .next-arrow-btn { right: -10px; top: 25%; }
     .nav-logo { font-size: 16px; }
 }
 </style>
@@ -157,19 +150,17 @@ p {
     </div>
 </header>
 
-<main class="main-content-area">
-    <div class="container">
-        <div id="text-box">
-            <h1 id="main-text"></h1>
-            <p id="sub-text">원치 않던 메일로 고통받으셨나요?</p>
-        </div>
+<main class="container">
+    <div id="text-box">
+        <h1 id="main-text"></h1>
+        <p id="sub-text">원치 않던 메일로 고통받으셨나요?</p>
+    </div>
 
-        <button class="next-arrow-btn" id="nextBtn" onclick="nextSlide()"></button>
+    <button class="next-arrow-btn" id="nextBtn" onclick="nextSlide()"></button>
 
-        <div class="counter-box">
-            <span class="counter-label">차단된 스팸 메일</span>
-            <h2 id="counter">0</h2>
-        </div>
+    <div class="counter-box">
+        <span class="counter-label">차단된 스팸 메일</span>
+        <h2 id="counter">0</h2>
     </div>
 </main>
 
@@ -222,7 +213,7 @@ function startCounter() {
         if(current >= targetNum) {
             document.getElementById("counter").innerText = targetNum.toLocaleString();
             clearInterval(timer);
-            nextBtn.style.display = "block";
+            nextBtn.style.display = "flex"; /* block에서 flex로 변경하여 중앙 정렬 보정 */
             setTimeout(() => { nextBtn.style.opacity = "1"; }, 50);
         }
     }, 30);
