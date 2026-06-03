@@ -28,7 +28,8 @@ body {
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
     color: #fff;
-    min-height: 350vh; /* 🚀 스크롤을 더 길고 여유 있게 내릴 수 있도록 확장 */
+    /* 🚀 빈 공간이 너무 과해지지 않도록 전체 높이를 220vh 수준으로 줄여 최적화 */
+    min-height: 220vh; 
 }
 
 /* 고정 이미지 배경 레이어 */
@@ -45,7 +46,7 @@ body {
     background-attachment: fixed;
 }
 
-/* 2. 상단 흰색 바 (레이아웃 고정) */
+/* 2. 상단 흰색 바 */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -83,17 +84,19 @@ body {
 .nav-item { font-size: 18px; color: #444; font-weight: 600; text-decoration: none; padding: 12px 15px; border-radius: 8px; transition: all 0.3s; cursor: pointer; display: block; text-align: left; }
 .nav-item:hover { background-color: rgba(0, 188, 212, 0.08); color: #00bcd4; padding-left: 22px; }
 
-/* 3. 🌊 여유로운 스토리텔링 레이아웃 */
+/* 3. 🌊 안정적인 스토리텔링 레이아웃 */
 .story-wrapper {
     position: relative;
     z-index: 1000;
     width: 100%;
     max-width: 1300px;
     margin: 0 auto;
-    padding: 25vh 80px 20vh 80px; /* 🚀 첫 시작 위치를 아래로 넉넉히 내려 웅장함 부여 */
+    /* 위아래 여백을 일정하게 맞춰 안정감을 줍니다 */
+    padding: 160px 80px 120px 80px; 
     display: flex;
     flex-direction: column;
-    gap: 65vh; /* 🚀 글씨들이 뭉치지 않도록 세로 간격을 대폭 확장 (화면 높이의 65%만큼 벌어짐) */
+    /* 🚀 빈 공간 스크롤이 지루하지 않도록 카드 간 간격을 화면 높이의 30%로 재조정 */
+    gap: 30vh; 
 }
 
 /* 행 정렬 구조 */
@@ -104,15 +107,15 @@ body {
 .story-row.align-left { justify-content: flex-start; }
 .story-row.align-right { justify-content: flex-end; }
 
-/* ✍️ [변경완료] 박스를 완전히 없앤 순수 텍스트 영역 */
+/* ✍️ 순수 텍스트 영역 */
 .about-text-block {
     width: 100%;
-    max-width: 520px;
+    max-width: 550px;
     
     /* 애니메이션 초기상태 */
     opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(40px);
+    transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* 스크롤 감지 시 등장 */
@@ -121,14 +124,16 @@ body {
     transform: translateY(0);
 }
 
-/* 제목 디자인 (현대 레퍼런스 스타일 반영) */
+/* 제목 디자인 */
 .about-title {
-    font-size: 38px; /* 크기를 키워 시선 집중 */
+    font-size: 36px;
     font-weight: 700;
     color: #fff;
     margin-bottom: 15px;
     line-height: 1.3;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* 박스가 없으므로 그림자로 가독성 확보 */
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    /* 🚀 단어 기준이 아니라 글자 기준으로 어색하게 잘려 줄바꿈되는 것을 방지 */
+    word-break: keep-all; 
 }
 
 /* 푸른색 강조 포인트 라인 */
@@ -141,18 +146,22 @@ body {
 
 /* 본문 설명글 디자인 */
 .about-text {
-    font-size: 19px;
+    font-size: 18px;
     color: #d1d5db;
-    line-height: 1.75;
+    line-height: 1.8;
     font-weight: 400;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    
+    /* 🚀 [핵심] 조사가 문장 끝에서 어색하게 끊기지 않고 단어 단위로 깔끔하게 줄바꿈되도록 설정 */
+    word-break: keep-all;
+    text-align: justify; /* 양쪽 정렬로 깔끔하게 시각화 */
 }
 
 /* 모바일 대응 */
 @media (max-width: 1024px) {
-    .story-wrapper { padding: 20vh 40px 10px 40px; gap: 45vh; }
-    .about-title { font-size: 32px; }
-    .about-text { font-size: 17px; }
+    .story-wrapper { padding: 120px 40px 80px 40px; gap: 25vh; }
+    .about-title { font-size: 30px; }
+    .about-text { font-size: 16px; }
 }
 @media (max-width: 768px) {
     .nav-logo { font-size: 16px; }
@@ -193,10 +202,10 @@ body {
 
     <div class="story-row align-left">
         <div class="about-text-block">
-            <h2 class="about-title">스팸 필터링<br>프로젝트</h2>
+            <h2 class="about-title">스팸 필터링 프로젝트</h2>
             <div class="title-line"></div>
             <p class="about-text">
-                원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 고통받으셨나요? 
+                원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 스트레스신가요? 
                 저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 차단합니다.
             </p>
         </div>
@@ -204,7 +213,7 @@ body {
 
     <div class="story-row align-right">
         <div class="about-text-block">
-            <h2 class="about-title">안전한 업무<br>파트너</h2>
+            <h2 class="about-title">안전한 업무 파트너</h2>
             <div class="title-line"></div>
             <p class="about-text">
                 딥러닝 모델과 고도화된 Flutter 기반의 개인 개발 인공지능 엔진이 실시간으로 수신 메일을 정밀 분석합니다. 
@@ -215,7 +224,7 @@ body {
 
     <div class="story-row align-left">
         <div class="about-text-block">
-            <h2 class="about-title">완벽한 데이터<br>보호</h2>
+            <h2 class="about-title">완벽한 데이터 보호</h2>
             <div class="title-line"></div>
             <p class="about-text">
                 사용자의 메일 수신 패턴을 철저하게 맞춤형으로 분석하고 분석 과정에서 개인정보 유출을 방지합니다. 
@@ -230,11 +239,11 @@ body {
 document.addEventListener("DOMContentLoaded", () => {
     const textBlocks = document.querySelectorAll('.about-text-block');
     
-    // 요소가 화면에 나타나는 시점을 더 부드럽게 조정하기 위해 threshold를 0.15로 설정
+    // 스크롤 시 카드가 등장하는 타이밍을 더 매끄럽게 만들기 위한 옵션
     const observerOptions = {
         root: null,
-        rootMargin: '-5% 0px -10% 0px', // 상하단 여백을 살짝 두어 자연스러운 타이밍에 등장
-        threshold: 0.15 
+        rootMargin: '0px 0px -10% 0px', 
+        threshold: 0.1 
     };
 
     const observer = new IntersectionObserver((entries) => {
