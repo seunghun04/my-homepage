@@ -28,8 +28,7 @@ body {
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
     color: #fff;
-    /* 스크롤 끝에 마지막 글씨가 안정적으로 도달할 수 있는 높이 설정 */
-    min-height: 200vh; 
+    /* 🚀 [변경] 불필요한 스크롤을 방지하기 위해 body의 min-height를 없애고 자연스러운 흐름에 맡깁니다. */
 }
 
 /* 고정 이미지 배경 레이어 */
@@ -91,12 +90,12 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    /* 상단/하단 여백을 일정하게 조절 */
-    padding: 160px 60px 100px 60px; 
+    /* 🚀 하단 패딩을 화면 높이 절반(50vh)으로 주어 마지막 카드가 화면 중앙~하단에 보일 때 스크롤이 딱 멈추게 만듭니다. */
+    padding: 180px 60px 50vh 60px; 
     display: flex;
     flex-direction: column;
-    /* 스크롤할 때 빈 공간이 너무 과하지 않도록 위아래 글씨 간격을 완벽히 고정 */
-    gap: 250px; 
+    /* 글군 간의 간격을 적절하고 명확하게 유지 */
+    gap: 300px; 
 }
 
 /* 행 정렬 구조 */
@@ -150,15 +149,13 @@ body {
     line-height: 1.75;
     font-weight: 400;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-    
-    /* 🛠️ [해결] 단어들이 양옆으로 찢어지던 현상을 완전히 없애기 위해 기본 정렬로 변경 */
-    text-align: left; 
+    text-align: left; /* 단어 찢어짐 방지용 좌측 정렬 */
     word-break: keep-all;
 }
 
 /* 모바일 대응 */
 @media (max-width: 1024px) {
-    .story-wrapper { padding: 120px 40px 80px 40px; gap: 180px; }
+    .story-wrapper { padding: 130px 40px 40vh 40px; gap: 200px; }
     .about-title { font-size: 28px; }
     .about-text { font-size: 16px; }
 }
@@ -206,7 +203,7 @@ body {
             <div class="title-line"></div>
             <p class="about-text">
                 원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 고통받으셨나요? 
-                저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 스마트하게 차단합니다.
+                저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 차단합니다.
             </p>
         </div>
     </div>
