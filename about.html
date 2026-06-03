@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -31,13 +30,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fff;
+    background-color: #000; /* GIF의 어두운 톤과 자연스럽게 매칭되도록 기본 배경을 검은색으로 설정 */
     min-height: 100vh;
     overflow: hidden;
     position: relative;
 }
 
-/* 독립된 배경 이미지 레이어 */
+/* 🎬 [변경 완료] 독립된 배경 이미지 레이어에 about.gif 적용 */
 .main-background {
     position: fixed; 
     top: 0;
@@ -45,14 +44,15 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: 1;
-    background: linear-gradient(rgba(240, 244, 248, 0.4), rgba(240, 244, 248, 0.4)), 
-                url("프로젝트 v3.png") center center no-repeat;
-    background-size: 100% 100%;
+    /* GIF 분위기에 맞춰 살짝 투명한 검은색 틴트를 오버레이하여 글씨 가독성을 높입니다 */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url("about.gif") center center no-repeat;
+    background-size: cover; /* 화면 비율이 바뀌어도 여백 없이 꽉 차게 고정 */
     background-attachment: fixed;
     transition: filter 0.4s ease; 
 }
 
-/* 2. 🎯 상단 흰색 바 (index, download와 레이아웃 완전 통일) */
+/* 2. 상단 흰색 바 (다른 페이지들과 레이아웃 완전 통일) */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -76,7 +76,7 @@ body {
     z-index: 2100;
 }
 
-/* 🎯 중앙 이미지 로고 (전체 화면 기준 완벽한 50% 정중앙 고정) */
+/* 중앙 이미지 로고 (전체 화면 기준 완벽한 50% 정중앙 고정) */
 .nav-center-logo { 
     position: absolute; 
     left: 50%; 
@@ -96,11 +96,11 @@ body {
     display: block;
 }
 
-/* 🎯 우측 통합 영역 상자 (유튜브 버튼 + 햄버거 메뉴) */
+/* 우측 통합 영역 상자 (유튜브 버튼 + 햄버거 메뉴) */
 .nav-right-area {
     display: flex;
     align-items: center;
-    gap: 25px; /* 유튜브 아이콘과 햄버거 버튼 사이 간격 */
+    gap: 25px; 
     height: 100%;
     z-index: 2100;
 }
@@ -115,7 +115,7 @@ body {
     transition: color 0.3s, transform 0.3s;
 }
 .youtube-btn:hover {
-    color: #ff0000; /* 호버 시 유튜브 브랜드 컬러 */
+    color: #ff0000; 
     transform: scale(1.1); 
 }
 
@@ -215,7 +215,7 @@ body:has(.side-navbar:hover) .about-container {
 .about-title {
     font-size: 34px;
     font-weight: 700;
-    color: #222;
+    color: #ffffff; /* 어두운 GIF 배경 위에서 잘 보이도록 제목 색상을 흰색으로 변경 */
     margin-bottom: 24px;
     border-bottom: 2px solid #00bcd4;
     padding-bottom: 10px;
@@ -224,10 +224,11 @@ body:has(.side-navbar:hover) .about-container {
 
 .about-text {
     font-size: 18px;
-    color: #333;
+    color: #e0e0e0; /* 어두운 GIF 배경 위에서 잘 보이도록 본문 색상을 밝은 연회색으로 변경 */
     line-height: 1.6;
     margin-bottom: 15px;
     font-weight: 400;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* 무빙 배경 위에서 텍스트가 묻히지 않게 미세한 그림자 추가 */
 }
 
 @keyframes fadeInUp {
