@@ -28,8 +28,8 @@ body {
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
     color: #fff;
-    /* 🚀 빈 공간이 너무 과해지지 않도록 전체 높이를 220vh 수준으로 줄여 최적화 */
-    min-height: 220vh; 
+    /* 스크롤 끝에 마지막 글씨가 안정적으로 도달할 수 있는 높이 설정 */
+    min-height: 200vh; 
 }
 
 /* 고정 이미지 배경 레이어 */
@@ -84,19 +84,19 @@ body {
 .nav-item { font-size: 18px; color: #444; font-weight: 600; text-decoration: none; padding: 12px 15px; border-radius: 8px; transition: all 0.3s; cursor: pointer; display: block; text-align: left; }
 .nav-item:hover { background-color: rgba(0, 188, 212, 0.08); color: #00bcd4; padding-left: 22px; }
 
-/* 3. 🌊 안정적인 스토리텔링 레이아웃 */
+/* 3. 🌊 최적화된 스토리텔링 레이아웃 */
 .story-wrapper {
     position: relative;
     z-index: 1000;
     width: 100%;
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
-    /* 위아래 여백을 일정하게 맞춰 안정감을 줍니다 */
-    padding: 160px 80px 120px 80px; 
+    /* 상단/하단 여백을 일정하게 조절 */
+    padding: 160px 60px 100px 60px; 
     display: flex;
     flex-direction: column;
-    /* 🚀 빈 공간 스크롤이 지루하지 않도록 카드 간 간격을 화면 높이의 30%로 재조정 */
-    gap: 30vh; 
+    /* 스크롤할 때 빈 공간이 너무 과하지 않도록 위아래 글씨 간격을 완벽히 고정 */
+    gap: 250px; 
 }
 
 /* 행 정렬 구조 */
@@ -115,7 +115,7 @@ body {
     /* 애니메이션 초기상태 */
     opacity: 0;
     transform: translateY(40px);
-    transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* 스크롤 감지 시 등장 */
@@ -126,13 +126,12 @@ body {
 
 /* 제목 디자인 */
 .about-title {
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     line-height: 1.3;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-    /* 🚀 단어 기준이 아니라 글자 기준으로 어색하게 잘려 줄바꿈되는 것을 방지 */
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
     word-break: keep-all; 
 }
 
@@ -141,26 +140,26 @@ body {
     width: 40px;
     height: 3px;
     background-color: #00bcd4;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 /* 본문 설명글 디자인 */
 .about-text {
     font-size: 18px;
     color: #d1d5db;
-    line-height: 1.8;
+    line-height: 1.75;
     font-weight: 400;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     
-    /* 🚀 [핵심] 조사가 문장 끝에서 어색하게 끊기지 않고 단어 단위로 깔끔하게 줄바꿈되도록 설정 */
+    /* 🛠️ [해결] 단어들이 양옆으로 찢어지던 현상을 완전히 없애기 위해 기본 정렬로 변경 */
+    text-align: left; 
     word-break: keep-all;
-    text-align: justify; /* 양쪽 정렬로 깔끔하게 시각화 */
 }
 
 /* 모바일 대응 */
 @media (max-width: 1024px) {
-    .story-wrapper { padding: 120px 40px 80px 40px; gap: 25vh; }
-    .about-title { font-size: 30px; }
+    .story-wrapper { padding: 120px 40px 80px 40px; gap: 180px; }
+    .about-title { font-size: 28px; }
     .about-text { font-size: 16px; }
 }
 @media (max-width: 768px) {
@@ -168,7 +167,8 @@ body {
     .nav-right-area { gap: 15px; }
     .youtube-btn { font-size: 24px; }
     .story-row.align-left, .story-row.align-right { justify-content: center; text-align: center; }
-    .title-line { margin: 0 auto 25px auto; }
+    .title-line { margin: 0 auto 20px auto; }
+    .about-text { text-align: center; }
 }
 </style>
 </head>
@@ -205,8 +205,8 @@ body {
             <h2 class="about-title">스팸 필터링 프로젝트</h2>
             <div class="title-line"></div>
             <p class="about-text">
-                원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 스트레스신가요? 
-                저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 차단합니다.
+                원치 않는 광고성 메시지와 날로 교묘해지는 피싱 범죄로 고통받으셨나요? 
+                저희 시스템은 일상적인 업무와 소통을 방해하는 유해 메일을 입구에서부터 스마트하게 차단합니다.
             </p>
         </div>
     </div>
@@ -239,7 +239,6 @@ body {
 document.addEventListener("DOMContentLoaded", () => {
     const textBlocks = document.querySelectorAll('.about-text-block');
     
-    // 스크롤 시 카드가 등장하는 타이밍을 더 매끄럽게 만들기 위한 옵션
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -10% 0px', 
