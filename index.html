@@ -1,12 +1,3 @@
-세심하게 짚어주셨네요! 상단 로고의 미세한 위치 쏠림 현상과 하단 푸터가 화면을 가리던 답답함을 깔끔하게 해결했습니다.
-
-🛠️ 수정한 핵심 포인트 2가지
-상단 네비바 로고 정중앙 고정: 기존 코드에서는 우측 메뉴의 너비 때문에 가운데 로고가 살짝 오른쪽으로 밀리는 현상이 있었습니다. 이를 완전히 독립시켜 화면 전체 기준 절대적인 정중앙(position: absolute; left: 50%; transform: translateX(-50%);)에 꽂아두었습니다. 이제 어떤 모니터에서 보든 정확히 한가운데 위치합니다.
-
-푸터바 스크롤 최하단 배치: 기존의 고정형(position: fixed)을 제거하고, 페이지 맨 밑으로 내렸을 때만 자연스럽게 등장하도록 일반 스크롤 레이아웃으로 변경했습니다. 동시에 중앙 메시지 영역이 화면을 꽉 채우도록 조절하여 스크롤 전에는 푸터가 보이지 않아 첫 화면이 훨씬 시원하고 깔끔해 보입니다.
-
-📄 새로고침된 최적화 index.html
-HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,17 +6,18 @@ HTML
 <title>자동화 필터링 시스템 - 메인</title>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* 1. 기본 초기화 및 스크롤바 커스텀 */
+/* 1. 기본 초기화 및 스크롤바 설정 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scrollbar-width: none; -ms-overflow-style: none; background-color: #fff; }
-html::-webkit-scrollbar { display: none; }
+html { background-color: #fff; }
 
-/* 2. 전체 페이지 레이아웃 (푸터를 아래로 밀어내기 위한 설정) */
+/* 2. 전체 페이지 레이아웃 (푸터 스크롤을 위한 가상 높이 설정) */
 body {
     font-family: 'Gothic A1', sans-serif;
-    min-height: 100vh;
+    /* 화면 높이(100vh)에 푸터 높이(65px)를 더해 푸터만을 위한 스크롤 영역 생성 */
+    min-height: calc(100vh + 65px); 
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* 푸터를 항상 문서 최하단에 배치 */
     overflow-x: hidden;
 }
 
@@ -35,7 +27,7 @@ body {
     transition: filter 0.4s ease;
 }
 
-/* 3. 🎯 상단 네비게이션바 (로고 완전 정중앙 고정) */
+/* 3. 상단 네비게이션바 (완전 중앙 정렬) */
 .top-navbar { 
     position: fixed; top: 0; left: 0; width: 100%; height: 70px; 
     background: rgba(255,255,255,0.95); z-index: 2000; 
@@ -43,7 +35,6 @@ body {
 }
 .nav-logo { font-weight: 700; font-size: 20px; cursor: pointer; color: #222; }
 
-/* 양쪽 요소에 방해받지 않는 절대적 50% 중앙 정렬 */
 .nav-center-logo { 
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); 
 }
@@ -60,26 +51,28 @@ body {
 .nav-item:hover { background: rgba(0,188,212,0.08); color: #00bcd4; padding-left: 22px; }
 body:has(.nav-menu-wrapper:hover) .main-background { filter: blur(3px); }
 
-/* 4. 🎯 중앙 메인 영역 (첫 화면을 꽉 채워 푸터를 밑으로 숨김) */
+/* 4. 🎯 중앙 메인 영역 (화면 중앙에 절대 고정) */
 .main-content-area {
-    flex: 1;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 화면 한가운데 정렬 */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 70px; /* 네비바 두께 확보 */
-    min-height: 100vh; /* 화면을 꽉 채워 푸터가 밑으로 내려가게 유도 */
+    z-index: 1000;
+    pointer-events: none; /* 뒤쪽 스크롤 방해하지 않도록 설정 */
 }
 
 .container {
-    position: relative;
-    z-index: 1000;
     width: 90%;
     max-width: 650px;
     text-align: center;
-    margin-bottom: 40px; /* 미세한 상향 조정을 위한 여백 균형 */
+    pointer-events: auto; /* 컨테이너 내부 버튼 등은 다시 클릭 가능하게 설정 */
 }
 
-/* 5. 텍스트 컨테이너 (단일 요소 슬라이드 처리) */
+/* 5. 텍스트 컨테이너 및 애니메이션 */
 #text-box {
     min-height: 110px;
     display: flex;
@@ -127,12 +120,12 @@ p {
 .counter-label { display: block; color: #fff; font-size: 20px; font-weight: 600; margin-bottom: 10px; text-shadow: 0 0 8px rgba(0,0,0,0.9); }
 #counter { font-size: 48px; font-weight: 700; color: #00e5ff; text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 0 25px rgba(0,0,0,0.7); }
 
-/* 9. 🎯 하단 푸터 (스크롤 해야만 보이도록 고정 해제) */
+/* 9. 🎯 하단 푸터 (스크롤을 내릴 때만 바닥에서 출현) */
 .bottom-footer { 
-    position: relative; /* fixed에서 변경 */
+    position: relative;
     width: 100%; height: 65px; 
     background: rgba(255,255,255,0.6); 
-    backdrop-filter: blur(5px); /* 배경이 살짝 흐려지며 고급스러운 느낌 추가 */
+    backdrop-filter: blur(5px);
     border-top: 1px solid rgba(255,255,255,0.3); 
     display: flex; justify-content: space-between; align-items: center; padding: 0 50px; 
     z-index: 2000; font-size: 13px; color: #333; 
@@ -142,6 +135,7 @@ p {
 
 @media (max-width: 768px) {
     .bottom-footer { flex-direction: column; height: auto; padding: 15px; gap: 8px; text-align: center; }
+    body { min-height: calc(100vh + 100px); } /* 모바일은 푸터가 늘어나므로 가상 공간 추가 확보 */
     .next-arrow-btn { right: -10px; }
     .nav-logo { font-size: 16px; }
 }
