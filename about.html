@@ -1,3 +1,9 @@
+제품소개 페이지(about.html) 역시 앞서 완성한 index.html, download.html과 100% 동일한 레이아웃 스펙으로 통일했습니다.
+
+상단 바에 유튜브 로고 아이콘이 깔끔하게 탑재되었고, 우측 메뉴 영역의 부피 변화에 방해받지 않고 중앙 대학 로고가 완벽하게 정중앙을 유지합니다. 페이지를 이동하더라도 상단 바가 1픽셀도 흔들리지 않는 전체 완성 코드입니다.
+
+📄 유튜브 로고 및 상단바 보정이 완료된 about.html 전체 코드
+HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,13 +14,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* 1. 기본 초기화 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* 브라우저 기본 스크롤바 숨김 */
 html {
@@ -29,12 +33,10 @@ body {
     font-family: 'Gothic A1', sans-serif;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.5px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #fff;
-    
     min-height: 100vh;
     overflow: hidden;
     position: relative;
@@ -55,7 +57,7 @@ body {
     transition: filter 0.4s ease; 
 }
 
-/* 상단 흰색 바 */
+/* 2. 🎯 상단 흰색 바 (index, download와 레이아웃 완전 통일) */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -64,9 +66,8 @@ body {
     height: 70px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    
-    display: grid;
-    grid-template-columns: 1fr auto 1fr; 
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 0 50px;
     z-index: 2000;
@@ -77,27 +78,55 @@ body {
     color: #222;
     font-weight: 700; 
     cursor: pointer;
-    justify-self: start;
+    z-index: 2100;
 }
 
-.nav-center-logo {
+/* 🎯 중앙 이미지 로고 (전체 화면 기준 완벽한 50% 정중앙 고정) */
+.nav-center-logo { 
+    position: absolute; 
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 2050;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     cursor: pointer;
 }
-
 .nav-center-logo img {
     height: 55px; 
     width: auto;  
     object-fit: contain;
+    display: block;
 }
 
-/* index.html과 완벽 호환되는 햄버거 영역 래퍼 */
+/* 🎯 우측 통합 영역 상자 (유튜브 버튼 + 햄버거 메뉴) */
+.nav-right-area {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* 유튜브 아이콘과 햄버거 버튼 사이 간격 */
+    height: 100%;
+    z-index: 2100;
+}
+
+/* 유튜브 버튼 디자인 및 효과 */
+.youtube-btn {
+    font-size: 28px; 
+    color: #555; 
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+}
+.youtube-btn:hover {
+    color: #ff0000; /* 호버 시 유튜브 브랜드 컬러 */
+    transform: scale(1.1); 
+}
+
+/* 햄버거 메뉴 래퍼 설정 */
 .nav-menu-wrapper {
-    justify-self: end;
-    height: 70px;
+    height: 100%;
     display: flex;
     align-items: center;
     position: relative;
@@ -139,7 +168,6 @@ body {
     z-index: 2500;
 }
 
-/* 마우스 호버 시 사이드바 오픈 액션 */
 .nav-menu-wrapper:hover .side-navbar,
 .side-navbar:hover {
     right: 0;
@@ -168,7 +196,7 @@ body {
     padding-left: 22px;
 }
 
-/* 삼색 바 메뉴 활성화 시 배경 및 컨텐츠 블러 처리 기믹 (index.html 연동 동일) */
+/* 메뉴 활성화 시 배경 및 컨텐츠 블러 처리 기믹 */
 body:has(.nav-menu-wrapper:hover) .main-background,
 body:has(.side-navbar:hover) .main-background,
 body:has(.nav-menu-wrapper:hover) .about-container,
@@ -176,7 +204,7 @@ body:has(.side-navbar:hover) .about-container {
     filter: blur(3px); 
 }
 
-/* 소개 페이지 전용 콘텐츠 박스 (투명 스타일 유지) */
+/* 3. 소개 페이지 전용 콘텐츠 박스 */
 .about-container {
     background: transparent;
     box-shadow: none;
@@ -184,7 +212,7 @@ body:has(.side-navbar:hover) .about-container {
     max-width: 650px;
     text-align: center;
     z-index: 1000;
-    margin-top: calc(50vh - 120px); /* 화면 세로 중앙에 이쁘게 정렬하도록 여백 계산 */
+    margin-top: calc(50vh - 120px); 
     animation: fadeInUp 0.8s ease-out forwards;
     transition: filter 0.4s ease;
 }
@@ -211,6 +239,12 @@ body:has(.side-navbar:hover) .about-container {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+    .nav-logo { font-size: 16px; }
+    .nav-right-area { gap: 15px; }
+    .youtube-btn { font-size: 24px; }
+}
 </style>
 </head>
 
@@ -225,17 +259,23 @@ body:has(.side-navbar:hover) .about-container {
         <img src="ui_symbol.png" alt="대학 로고">
     </div>
     
-    <div class="nav-menu-wrapper">
-        <div class="hamburger-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <div class="nav-right-area">
+        <a href="https://www.youtube.com/본인채널주소" target="_blank" class="youtube-btn" title="유튜브 채널 이동">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
         
-        <nav class="side-navbar">
-            <a class="nav-item" onclick="location.href='about.html'" style="color: #00bcd4; background-color: rgba(0, 188, 212, 0.05);">제품소개</a>
-            <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
-        </nav>
+        <div class="nav-menu-wrapper">
+            <div class="hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav class="side-navbar">
+                <a class="nav-item" onclick="location.href='about.html'" style="color: #00bcd4; background-color: rgba(0, 188, 212, 0.05);">제품소개</a>
+                <a class="nav-item" onclick="location.href='download.html'">다운로드</a>
+            </nav>
+        </div>
     </div>
 </header>
 
