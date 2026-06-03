@@ -8,20 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC+Guides&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 /* 1. 기본 초기화 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* 브라우저 기본 스크롤바 숨김 */
-html {
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
-}
-html::-webkit-scrollbar {
-    display: none; 
-}
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
 
 body {
     font-family: 'Gothic A1', sans-serif;
@@ -30,236 +25,83 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #0d0d11; /* GIF의 어두운 황금빛 톤과 조화를 이루도록 딥한 배경색 지정 */
+    background-color: #0d0d11;
     min-height: 100vh;
     overflow: hidden;
     position: relative;
 }
 
-/* 🎬 [변경 완료] 독립된 배경 이미지 레이어에 download.gif 적용 */
 .main-background {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    /* 황금빛 입자가 빛날 수 있도록 살짝 어두운 마스크를 얹어 텍스트 가독성을 확보합니다 */
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                 url("download.gif") center center no-repeat;
-    background-size: cover; /* 화면 해상도에 맞춰 꽉 차게 조절 */
-    background-attachment: fixed;
+    background-size: cover; background-attachment: fixed;
     transition: filter 0.4s ease; 
 }
 
-/* 2. 상단 흰색 바 (index, about 페이지와 레이아웃 100% 일치) */
+/* 2. 상단 네비바 */
 .top-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
+    position: fixed; top: 0; left: 0; width: 100%; height: 70px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-    z-index: 2000;
+    display: flex; justify-content: space-between; align-items: center; padding: 0 50px; z-index: 2000;
 }
 
-.nav-logo {
-    font-size: 20px; 
-    color: #222;
-    font-weight: 700; 
-    cursor: pointer;
-    z-index: 2100;
+.nav-logo { 
+    font-family: "Playwrite AU VIC Guides", cursive;
+    font-size: 22px; color: #222; font-weight: 400; cursor: pointer; z-index: 2100; 
 }
 
-/* 중앙 이미지 로고 (전체 화면 기준 정확히 50% 지점에 고정) */
 .nav-center-logo { 
-    position: absolute; 
-    left: 50%; 
-    top: 50%; 
-    transform: translate(-50%, -50%); 
-    z-index: 2050;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    cursor: pointer;
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2050;
+    display: flex; justify-content: center; align-items: center; height: 100%; cursor: pointer;
 }
-.nav-center-logo img {
-    height: 55px; 
-    width: auto;  
-    object-fit: contain;
-    display: block;
-}
-
-/* 우측 통합 영역 (유튜브 버튼 + 햄버거 메뉴) */
-.nav-right-area {
-    display: flex;
-    align-items: center;
-    gap: 25px; 
-    height: 100%;
-    z-index: 2100;
-}
-
-/* 유튜브 버튼 디자인 */
-.youtube-btn {
-    font-size: 28px; 
-    color: #555; 
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: color 0.3s, transform 0.3s;
-}
-.youtube-btn:hover {
-    color: #ff0000; 
-    transform: scale(1.1); 
-}
-
-/* 햄버거 메뉴 래퍼 설정 */
-.nav-menu-wrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.hamburger-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25px;
-    height: 18px;
-    z-index: 3000;
-}
-
-.hamburger-btn span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #222;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-/* 슬라이딩 사이드 바 메뉴판 */
+.nav-center-logo img { height: 55px; width: auto; object-fit: contain; display: block; }
+.nav-right-area { display: flex; align-items: center; gap: 25px; height: 100%; z-index: 2100; }
+.youtube-btn { font-size: 28px; color: #555; display: flex; align-items: center; text-decoration: none; transition: color 0.3s, transform 0.3s; }
+.youtube-btn:hover { color: #ff0000; transform: scale(1.1); }
+.nav-menu-wrapper { height: 100%; display: flex; align-items: center; position: relative; cursor: pointer; }
+.hamburger-btn { display: flex; flex-direction: column; justify-content: space-between; width: 25px; height: 18px; z-index: 3000; }
+.hamburger-btn span { display: block; width: 100%; height: 3px; background-color: #222; border-radius: 2px; transition: all 0.3s ease; }
 .side-navbar {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 280px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    padding: 100px 30px 40px 30px;
-    gap: 20px;
-    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 2500;
+    position: fixed; top: 0; right: -300px; width: 280px; height: 100vh; background: rgba(255, 255, 255, 0.98);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; padding: 100px 30px 40px 30px; gap: 20px;
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2500;
 }
+.nav-menu-wrapper:hover .side-navbar, .side-navbar:hover { right: 0; }
+.nav-menu-wrapper:hover .hamburger-btn span { background-color: #00bcd4; }
+.nav-item { font-size: 18px; color: #444; font-weight: 600; text-decoration: none; padding: 12px 15px; border-radius: 8px; transition: all 0.3s; cursor: pointer; display: block; text-align: left; }
+.nav-item:hover { background-color: rgba(0, 188, 212, 0.08); color: #00bcd4; padding-left: 22px; }
 
-.nav-menu-wrapper:hover .side-navbar,
-.side-navbar:hover {
-    right: 0;
-}
-
-.nav-menu-wrapper:hover .hamburger-btn span {
-    background-color: #00bcd4;
-}
-
-.nav-item {
-    font-size: 18px; 
-    color: #444;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 12px 15px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    cursor: pointer;
-    display: block;
-    text-align: left;
-}
-
-.nav-item:hover {
-    background-color: rgba(0, 188, 212, 0.08);
-    color: #00bcd4; 
-    padding-left: 22px;
-}
-
-/* 메뉴 활성화 시 배경 및 컨텐츠 블러 처리 기믹 */
+/* 3. 다운로드 콘텐츠 */
 body:has(.nav-menu-wrapper:hover) .main-background,
 body:has(.side-navbar:hover) .main-background,
 body:has(.nav-menu-wrapper:hover) .download-container,
-body:has(.side-navbar:hover) .download-container {
-    filter: blur(3px); 
-}
+body:has(.side-navbar:hover) .download-container { filter: blur(3px); }
 
-/* 3. 다운로드 전용 콘텐츠 박스 */
 .download-container {
-    background: transparent;
-    padding: 40px;
-    width: 90%;
-    max-width: 650px;
-    text-align: center; 
-    z-index: 1000;
-    margin-top: calc(50vh - 120px); 
-    animation: fadeInUp 0.8s ease-out forwards;
-    transition: filter 0.4s ease;
+    background: transparent; padding: 40px; width: 90%; max-width: 650px;
+    text-align: center; z-index: 1000; margin-top: calc(50vh - 120px); 
+    animation: fadeInUp 0.8s ease-out forwards; transition: filter 0.4s ease;
 }
-
 .download-title {
-    font-size: 34px;
-    font-weight: 700;
-    color: #ffffff; /* 어두운 황금빛 배경에 잘 띄도록 흰색 폰트로 보정 */
-    margin-bottom: 24px;
-    border-bottom: 2px solid #00bcd4;
-    padding-bottom: 10px;
-    display: inline-block;
+    font-size: 34px; font-weight: 700; color: #ffffff; margin-bottom: 24px;
+    border-bottom: 2px solid #00bcd4; padding-bottom: 10px; display: inline-block;
 }
-
 .download-text {
-    font-size: 18px;
-    color: #e2e2e8; /* 가독성을 위해 밝은 연회색으로 보정 */
-    line-height: 1.6;
-    margin-bottom: 30px;
-    font-weight: 400;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); /* 글씨가 배경 입자에 묻히지 않게 그림자 추가 */
+    font-size: 18px; color: #e2e2e8; line-height: 1.6; margin-bottom: 30px;
+    font-weight: 400; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
-
-.download-btn-wrap {
-    display: flex;
-    justify-content: center; 
-}
-
+.download-btn-wrap { display: flex; justify-content: center; }
 .btn-download {
-    display: inline-block;
-    padding: 15px 40px;
-    background-color: #00bcd4;
-    color: #ffffff !important;
-    font-size: 18px;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 30px; 
-    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    display: inline-block; padding: 15px 40px; background-color: #00bcd4;
+    color: #ffffff !important; font-size: 18px; font-weight: 700; text-decoration: none;
+    border-radius: 30px; box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    transition: all 0.3s ease; cursor: pointer;
 }
+.btn-download:hover { background-color: #0097a7; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5); }
 
-.btn-download:hover {
-    background-color: #0097a7;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 768px) {
     .nav-logo { font-size: 16px; }
@@ -274,24 +116,16 @@ body:has(.side-navbar:hover) .download-container {
 <div class="main-background"></div>
 
 <header class="top-navbar">
-    <div class="nav-logo" onclick="location.href='index.html'">자동화 필터링 시스템</div>
-    
+    <div class="nav-logo" onclick="location.href='index.html'">Automation System</div>
     <div class="nav-center-logo" onclick="location.href='index.html'">
         <img src="ui_symbol.png" alt="대학 로고">
     </div>
-    
     <div class="nav-right-area">
         <a href="https://www.youtube.com/@tmdgns1130" target="_blank" class="youtube-btn" title="유튜브 채널 이동">
             <i class="fa-brands fa-youtube"></i>
         </a>
-        
         <div class="nav-menu-wrapper">
-            <div class="hamburger-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
+            <div class="hamburger-btn"><span></span><span></span><span></span></div>
             <nav class="side-navbar">
                 <a class="nav-item" onclick="location.href='about.html'">제품소개</a>
                 <a class="nav-item" onclick="location.href='download.html'" style="color: #00bcd4; background-color: rgba(0, 188, 212, 0.05);">다운로드</a>
@@ -303,11 +137,12 @@ body:has(.side-navbar:hover) .download-container {
 <div class="download-container">
     <h2 class="download-title">다운로드</h2>
     <p class="download-text">설치 파일을 다운로드하여 안전한 메일 환경을 구축해 보세요.</p>
-    
     <div class="download-btn-wrap">
         <a href="download/spam-filter.exe" class="btn-download" download>시스템 다운로드</a>
     </div>
 </div>
 
+</body>
+</html>
 </body>
 </html>
