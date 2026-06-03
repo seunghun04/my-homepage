@@ -1,11 +1,3 @@
-제공해주신 원본 코드 구조를 그대로 유지하면서, 요청하신 조건들을 완벽하게 반영했습니다.
-
-이전 코드에서 슬라이드 기능을 구현하기 위해 전체 틀(.container)을 가로로 배치하다 보니 레이아웃이 깨지고 카운터가 박스 안으로 빨려 들어가는 버그가 발생했었네요!
-
-이번에는 기존 디자인(글씨 두께, 발광 섀도우 효과, 카운터 애니메이션의 타이밍)을 완전히 지키면서, 오른쪽에만 반투명 화살표를 깔끔하게 띄우고 글씨가 제자리에서 부드럽게 페이드아웃되며 전환되도록 투명도 애니메이션 기법으로 변경했습니다.
-
-🛠️ 버그가 완전히 해결된 index.html 최종 수정 코드
-HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -180,7 +172,7 @@ body:has(.side-navbar:hover) .counter-box {
     filter: blur(3px); 
 }
 
-/* 🛠️ 중앙 컨테이너 박스 (원본 레이아웃 규격 복원) */
+/* 🛠️ 중앙 전체 레이아웃 틀 고정 */
 .container {
     background: transparent;
     box-shadow: none;
@@ -189,30 +181,39 @@ body:has(.side-navbar:hover) .counter-box {
     text-align: center;
     z-index: 1000;
     margin-top: calc(50vh - 180px); 
-    position: relative; /* 화살표 배치를 위한 기준선 */
+    position: relative; 
 }
 
-/* 🛠️ [신규 구현] 글씨가 제자리에서 부드럽게 전환되도록 제어하는 래퍼 공간 */
+/* 🛠️ 슬라이드 윈도우 스크린 디스플레이 */
 .slide-display-area {
     position: relative;
     width: 100%;
-    min-height: 120px; /* 글씨 전환 시 레이아웃이 덜컹거리지 않게 최소 높이 확보 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 120px; 
+    overflow: hidden; /* 영역 밖으로 나가는 글씨 흔적 완전 격리 */
 }
 
-/* 🛠️ 타이틀 전용 래퍼 (기존 디자인 및 효과 완전 유지) */
+/* 🛠️ 타이틀 전용 래퍼 (기존 디자인 및 폰트 효과 완벽 보존) */
 .title-wrapper {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
-    transform: translateX(20px); /* 오른쪽에서 스르륵 들어오는 효과 */
+    /* 겹침 버그 해결의 핵심: 부드럽고 일정한 속도의 베지에 곡선 트랜지션 */
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    transform: translateX(0); 
 }
 
-/* 현재 보여지는 슬라이드 활성화 클래스 */
+/* [상태 제어 클래스 1]: 대기 상태 (화면 우측 바깥에 숨겨놓음) */
+.title-wrapper.incoming {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+/* [상태 제어 클래스 2]: 활성화 상태 (정중앙 안착) */
 .title-wrapper.active {
     position: relative;
     opacity: 1;
@@ -220,12 +221,20 @@ body:has(.side-navbar:hover) .counter-box {
     transform: translateX(0);
 }
 
-/* 첫 등장 타이핑 애니메이션용 초기 타겟 처리 */
+/* [상태 제어 클래스 3]: 퇴장 상태 (요청하신 왼쪽으로 스르륵 사라짐 구현) */
+.title-wrapper.outgoing {
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+/* 최초 등장 페이드인 트랙 */
 #first-slide {
     animation: fadeInUp 1s ease-out forwards;
 }
 
-/* ✨ 메인 타이틀 효과 복원 */
+/* ✨ 메인 타이틀 안개 섀도우 효과 완벽 복원 */
 h1 {
     color: #ffffff; 
     margin-bottom: 16px;
@@ -241,7 +250,7 @@ h1 {
         0 0 100px rgba(0, 0, 0, 0.6);
 }
 
-/* ✨ 서브 타이틀 효과 복원 */
+/* ✨ 서브 타이틀 효과 완벽 복원 */
 p {
     color: #ffffff; 
     margin-bottom: 0; 
@@ -260,43 +269,42 @@ p {
     transition: 1s;
 }
 
-/* 🛠️ [신규 추가] 요청하신 우측 배치용 반투명 화살표 버튼 */
+/* 🛠️ 우측 단일 배치 반투명 화살표 버튼 */
 .next-arrow-btn {
     position: absolute;
-    right: -50px; /* 글씨 영역 오른쪽에 이쁘게 밀어서 배치 */
-    top: 50%;
-    transform: translateY(-50%);
+    right: -60px; 
+    top: 35px; /* 타이틀 글씨 높이에 일직선 눈높이 맞춤 */
     background: transparent;
     border: none;
     cursor: pointer;
     z-index: 1050;
-    padding: 10px;
-    display: none; /* 첫 타이핑과 카운터가 끝날 때까지 대기 */
+    padding: 15px;
+    display: none; 
     opacity: 0;
     transition: opacity 0.8s ease, transform 0.2s;
 }
 
-/* 요청하신 수제 스타일의 반투명 화살표 뼈대 구현 */
+/* 수제 스타일 꺾쇠 화살표 디자인 */
 .next-arrow-btn::after {
     content: '';
     display: block;
-    width: 15px;
-    height: 15px;
-    border-top: 3px solid rgba(255, 255, 255, 0.4);   /* 은은한 반투명 흰색 선 */
-    border-right: 3px solid rgba(255, 255, 255, 0.4);  /* 은은한 반투명 흰색 선 */
-    transform: rotate(45deg); /* 오른쪽 화살표 방향 회전 */
+    width: 16px;
+    height: 16px;
+    border-top: 3px solid rgba(255, 255, 255, 0.4);   
+    border-right: 3px solid rgba(255, 255, 255, 0.4);  
+    transform: rotate(45deg); 
     transition: border-color 0.3s;
 }
 
 .next-arrow-btn:hover {
-    transform: translateY(-50%) scale(1.1);
+    transform: scale(1.15);
 }
 .next-arrow-btn:hover::after {
-    border-top-color: rgba(255, 255, 255, 0.9); /* 마우스 올리면 선명해짐 */
+    border-top-color: rgba(255, 255, 255, 0.9); 
     border-right-color: rgba(255, 255, 255, 0.9);
 }
 
-/* 🛠️ 카운터 박스 레이아웃 완전 복원 */
+/* 🛠️ 카운터 박스 레이아웃 (위치 흔들림 원천 고정) */
 .counter-box {
     background: transparent;
     border: none;
@@ -305,9 +313,10 @@ p {
     margin-top: 50px; 
     opacity: 0;
     transition: opacity 1s;
+    width: 100%;
 }
 
-/* ✨ 차단된 스팸 메일 글자 스타일 */
+/* ✨ 차단된 스팸 메일 레이블 */
 .counter-label {
     display: block;
     color: #ffffff; 
@@ -321,7 +330,7 @@ p {
         0 0 40px rgba(0, 0, 0, 0.6);
 }
 
-/* ✨ 카운터 숫자 스타일 복원 (민트색 발광 극대화) */
+/* ✨ 카운터 숫자 민트색 초발광 효과 유지 */
 #counter {
     font-size: 48px;
     font-weight: 700;
@@ -334,7 +343,7 @@ p {
         0 0 65px rgba(0, 0, 0, 0.5); 
 }
 
-/* 하단 정보 바 (Footer) 스타일 */
+/* 하단 정보 바 (Footer) */
 .bottom-footer {
     position: absolute; 
     bottom: 0;
@@ -368,7 +377,6 @@ p {
     font-size: 12px;
 }
 
-/* 모바일 반응형 처리 */
 @media (max-width: 768px) {
     .bottom-footer {
         height: auto;
@@ -382,7 +390,7 @@ p {
         gap: 12px;
     }
     .next-arrow-btn {
-        right: 10px; /* 모바일 환경 배려 */
+        right: -10px; 
     }
 }
 
@@ -391,7 +399,7 @@ p {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 깜빡이는 커서(|) 스타일 */
+/* 깜빡이는 커서(|) */
 #typing-title::after {
     content: "|";
     animation: blink 0.8s infinite;
@@ -441,12 +449,12 @@ p {
             <p id="sub-title">원치 않던 메일로 고통받으셨나요?</p>
         </div>
 
-        <div class="title-wrapper">
+        <div class="title-wrapper incoming">
             <h1>안전한 업무 파트너</h1>
             <p>인공지능 실시간 분석으로 피싱 메일을 원천 차단합니다.</p>
         </div>
 
-        <div class="title-wrapper">
+        <div class="title-wrapper incoming">
             <h1>스마트한 메일 분석기</h1>
             <p>강력한 필터링 엔진이 사용자의 소중한 정보를 보호합니다.</p>
         </div>
@@ -483,8 +491,8 @@ const nextBtn = document.getElementById("nextBtn");
 let index = 0;
 let currentSlide = 0;
 const slides = document.querySelectorAll(".title-wrapper");
+let isSliding = false; // 더블 클릭 버그 방지용 인터록 스위치
 
-// 기존 타이핑 메커니즘 100% 동일 유지
 function typing() {
     if(index < text.length){
         target.innerHTML += text.charAt(index);
@@ -502,7 +510,6 @@ function typing() {
 
 window.onload = typing;
 
-// 기존 스팸 카운터 시스템 및 등속 타이밍 100% 복원
 function startCounter(){
     let current = 0;
     let targetNum = 152847;
@@ -515,31 +522,43 @@ function startCounter(){
             counter.innerText = targetNum.toLocaleString();
             clearInterval(timer);
             
-            // 🔥 버그 해결: 카운터 상승이 완전히 종료된 시점에만 화살표 버튼이 부드럽게 등장하도록 동기화
+            // 숫자가 다 오르면 우측 화살표 출현
             nextBtn.style.display = "block";
             setTimeout(() => { nextBtn.style.opacity = "1"; }, 50);
         }
     }, 30);
 }
 
-// 🛠️ [버그 원천 차단형 슬라이드 함수] 
-// 글씨가 화면을 뚫고 튀어나가지 않고, 제자리에서 스르륵 사라지고 나타나도록 개선
+// 🛠️ [버그 완치 판정 버전 슬라이드 제어 시스템]
 function nextSlide() {
-    // 1. 현재 보여지고 있는 문구를 뒤로 숨기기 (fade out 및 오른쪽으로 밀기)
-    slides[currentSlide].classList.remove("active");
-    slides[currentSlide].style.transform = "translateX(-20px)"; // 부드럽게 왼쪽으로 나가기
+    if (isSliding) return; // 이전 글씨가 나가는 중이면 클릭 차단 (꼬임 방지)
+    isSliding = true;
 
-    // 2. 인덱스 다음 칸으로 전환 루프 설정
+    // 1. 기존에 떠 있던 활성 슬라이드를 왼쪽(-100%)으로 밀어 보내며 퇴장시킴
+    const prevSlide = slides[currentSlide];
+    prevSlide.classList.remove("active");
+    prevSlide.classList.add("outgoing");
+
+    // 2. 인덱스 한 칸 추가 카운팅
     currentSlide = (currentSlide + 1) % slides.length;
+    const incomingSlide = slides[currentSlide];
 
-    // 3. 새로 나올 문구 리셋 후 앞으로 가져오기 (fade in)
-    slides[currentSlide].style.transform = "translateX(20px)"; // 오른쪽에서 대기 유도
-    
-    // 약간의 딜레이를 주어 브라우저 리렌더링 버그 방지 후 활성화
+    // 3. 새로 들어올 다음 슬라이드는 미리 우측(+100%) 대기 상태로 세팅
+    incomingSlide.classList.remove("outgoing");
+    incomingSlide.classList.add("incoming");
+
+    // 4. 아주 짧은 간격을 두어 컴퓨터가 위치 재조정을 마친 후 정중앙(active)으로 입장시킴
     setTimeout(() => {
-        slides[currentSlide].classList.add("active");
-        slides[currentSlide].style.transform = "translateX(0)";
+        incomingSlide.classList.remove("incoming");
+        incomingSlide.classList.add("active");
     }, 50);
+
+    // 5. 퇴장이 완전히 끝나서 안 보이게 된 글씨는 다음 순서를 위해 초기 상태(incoming)로 은밀히 복귀시킴
+    setTimeout(() => {
+        prevSlide.classList.remove("outgoing");
+        prevSlide.classList.add("incoming");
+        isSliding = false; // 잠금 해제
+    }, 450); // CSS 트랜지션 타임인 0.4초가 지나면 락 해제
 }
 </script>
 </body>
